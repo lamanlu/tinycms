@@ -192,6 +192,10 @@ class Admin extends MY_Controller{
             $this->showNoticePage($msg);
         }
         
+        if($id == 1){
+            $status = 0;
+        }
+        
         $data = array(
             'nickname' => $nickname,
             'role_id' => $roleId,
