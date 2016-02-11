@@ -1,0 +1,151 @@
+<h3 class="header smaller lighter blue">账号列表</h3>
+<div class="row">
+        <div id="searchForm" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <input type="text" class="col-xs-12" name="name" placeholder="用户名"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="role">
+                            <option value="0">--用户组--</option>
+                            <?php foreach($roleList as $role):?>
+                                <option value="<?php echo $role['id'];?>"><?php echo $role['role_name'];?></option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="button" id="search_btn" class="col-xs-2 pull-right btn btn-sm btn-primary" value="搜索" />
+                    </div>
+                </div>
+            </div>
+            <div class="space-4"></div>
+        </div>
+</div>
+<div class="table-header">账号列表<button class="btn add-btn pull-right btn-xs btn-info" onclick="window.location='<?php echo get_url('/admin/add');?>'">新增账号</button></div>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" id="data_table">
+        <thead>
+            <tr>
+                <th>真实姓名</th>
+                <th>用户名</th>
+                <th>用户组</th>
+                <th>账号状态</th>
+                <th>最近登陆时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+jQuery(function($) {
+	var oTable1 = $('#data_table').DataTable( {
+		"processing": true,
+		"ordering": false,
+		"searching": true,
+		"serverSide": true,
+		"bAutoWidth": false,
+		"language": {
+			"lengthMenu": "每页 _MENU_ 条记录",
+			"zeroRecords": "没有找到记录",
+			"info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+			"infoEmpty": "无记录",
+			"infoFiltered": "(从 _MAX_ 条记录过滤)"
+		},
+		"columns": [
+			{ "data": "nickname" },
+			{ "data": "uname" },
+			{ "data": "role_name" },
+			{ "data": "status" },
+			{ "data": "last_login" },
+			{ "data": null },
+		],
+		"ajax": "<?php echo get_url('/admin/getlist');?>",
+		"columnDefs": [ {
+			"targets": -1,
+			"data": "id",
+			"render": function ( data, type, full, meta ) {
+				var html = '<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">';
+				html += '<a href="<?php echo get_url("/admin/edit");?>?id=' + data.id + '" class="green"><i class="icon-pencil bigger-130"></i></a>&nbsp;';
+				//html += '<a href="javascript:;" data-id="' + data.id + '" class="red"><i class="icon-trash bigger-130"></i></a>';
+				html += '</div>';
+				return html;
+			}
+		} ]
+	});
+
+    //删除列表项的方法
+	function deleteData(id){
+		if(window.confirm('确定要删除这条记录么？')){
+			$.ajax({
+			   type: "POST",
+			   url: '<?php echo get_url("/city/delete");?>',
+			   data: {id:id},
+			   dataType: 'json',
+			   success: function(data){
+				 alert(data.msg);
+				 if(data.code > 0){
+					//刷新列表
+					console.log(oTable1);
+					oTable1.draw();
+				 }
+			   }
+			});
+		}
+	}
+
+    //调用删除的方法
+    $(document).on("click", ".action-buttons a", function () {
+        if($(this).attr("data-id")) {
+            deleteData($(this).attr("data-id"));
+        }
+    })
+
+    /**
+     * dataTables扩展的search方法
+     * @search 
+     @author sinker
+     * @since 2016-01-12
+     */
+    //调用dataTables扩展的搜索方法
+    $(document).on("click", "#search_btn", function (e) {
+        var $search_form = $("#searchForm"),
+            search_value = '{',
+            is_nonblank = false;
+        $search_form.find("input, select, textarea").each(function (i, val) {
+            var value;
+            if($(val).get(0).tagName == "INPUT" || $(val).get(0).tagName == "TEXTAREA") {
+                value = $(val).val();
+                if(value != "") {
+                    is_nonblank = true;
+                }
+            }
+
+            if($(val).get(0).tagName == "SELECT") {
+                value = $(val).find(":selected").val();
+                if(value == "0") {
+                    is_nonblank = true;
+                }
+            }
+            if($(val).attr("type") != "button") {
+                search_value += '"' + $(val).attr("name") + '":"' + value + '",';
+            }
+        })
+
+        if(search_value == "{") {
+            search_value += "}";
+        } else {
+            search_value = search_value.slice(0, -1) + "}";
+        }
+        if(is_nonblank) {
+            
+            // var search_value = encodeURI(search_json);
+            oTable1.search( search_value ).draw();
+        }
+    })
+});
+
+</script>

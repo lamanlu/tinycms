@@ -1,0 +1,419 @@
+<html>
+<head></head>
+<body>
+    <h3 class="header smaller lighter blue">添加活动</h3>
+    <form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('activity/add');?>" method="post">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">国家：</label>
+            <div class="col-sm-3 readonly">
+                <select class="form-control" name="country_id">
+                    <option value="0">--请选择--</option>
+                    <?php foreach($countryList as $country):?>
+                    <option value="<?php echo $country['id'];?>" class="main"><?php echo $country['name'];?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">城市：</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="city_id">
+                    <option value="0" class="main">--请选择--</option>
+                </select>
+            </div>
+        </div>
+                <div class="form-group">
+            <label class="col-sm-3 control-label">供应商：</label>
+            <div class="col-sm-3">
+                <select class="form-control input" name="supplier_id" data-name="供应商">
+                	<option value="0" class="main">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">活动名称：</label>
+            <div class="col-sm-3">
+                <input class="form-control input" name="name" placeholder="中文名称" type="text" />
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control input" name="name_en" placeholder="英文名称" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="address" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">活动集合地：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="acts_collective" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">简介：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="intro"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">游客注意事项：</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" name="attention" type="text"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">活动照片：</label>
+            <div class="col-sm-3 photo-wrap">
+                <input type="file" id="photo" class="form-control" data-name="photo" />
+            </div>
+            <div class="col-sm-5">
+                <span class="input-tips">图片格式为jpg、png，1-3张，大小不超过2M</span>
+            </div>
+        </div>
+        <div class="pic-wall"></div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">网址：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="website" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">排期附件：</label>
+            <div class="col-sm-3 file-wrap">
+                <input type="file" id="schedule" class="form-control" data-name="schedule"/>
+            </div>
+            <div class="col-sm-3">
+                <span class="input-tips">如破冰船排期，可为空</span>
+            </div>
+        </div>
+        <div class="file-wall"></div>
+        <div class="form-group">
+	        <label class="col-sm-3 control-label">其他附件：</label>
+	        <div class="col-sm-3 file-wrap">
+	            <input id="others-1" type="file" class="form-control" data-name="other_attachment[]" />
+	        </div>
+        </div>
+        <div class="file-wall"></div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">货币：</label>
+            <div class="col-sm-3">
+                <select name="currency" id="" class="form-control">
+                    <option value="0">货币类型</option>
+                 <?php foreach(config_item('currency') as $currency_key => $currency_child):?>
+						<option value="<?php echo $currency_key;?>" ><?php echo $currency_child;?></option>
+                <?php endforeach;?>               
+                </select>
+            </div>
+        </div>
+		<?php echo create_sub_price_form();?>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">年龄限制：</label>
+            <div class="col-sm-2">
+                <select class="form-control" name="min_age">
+					<?php echo age_options();?>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="max_age">
+					<?php echo age_options();?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">人数限制：</label>
+            <div class="col-sm-2">
+                <select class="form-control" name="min_number">
+                    <?php echo people_num_options();?>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="max_number">
+                    <?php echo people_num_options();?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">开放日期：</label>
+            <div class="col-sm-1">
+                <input type="hidden" name="ot_id[]" />
+                <select name="ot_season[]" class="input-small">
+					<?php echo season_options();?>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input class="input-mini" name="ot_start_date[]" placeholder="开始日期" type="text" />
+                <span class="control-label">至</span>
+                <input class="input-mini" name="ot_end_date[]" placeholder="结束日期" type="text" />
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_start_week[]" class="input-small">
+					<?php echo week_options();?>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_end_week[]" class="input-small">
+					<?php echo week_options();?>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_start_time[]" class="input-large" placeholder="开始时间">
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_end_time[]" class="input-large" placeholder="结束时间">
+            </div>
+            <div class="col-sm-1 opentime-btn-wrap btn-wrap">
+                <i class="icon-plus-sign icon-large green control-label" data-action="line-clone"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">开放时间备注：</label>
+            <div class="col-sm-6">
+                <input type="text" name="open_remark" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">购买方式(可多选)：</label>
+            <div class="col-sm-9">
+            <?php foreach(config_item('purchases') as $purchases_key => $child):?>
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $purchases_key;?>" name="purchases[]">
+                    <span class="lbl">&nbsp;<?php echo $child;?></span>
+                </label>
+            <?php endforeach;?>
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_website" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订邮箱</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_email" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_tel" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">购买地址</label>
+            <div class="col-sm-5">
+                <input type="text" name="purchases_address" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">推荐游玩时长：</label>
+            <div class="col-sm-3">
+                <input class="form-control input" name="recommended_duraion" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">旅行设计师备注：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="remark"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok bigger-110"></i>
+                    保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                    <i class="icon-undo bigger-110"></i>
+                    返回
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+    var picDomain = "<?php echo $imgDomain;?>";
+    var picUploadDomain = '<?php echo $imgUploadDomain;?>';
+    var fileDomain = "<?php echo $fileDomain;?>";
+    var fileUploadDomain = "<?php echo $fileUploadDomain;?>";
+
+    $("#dataForm").validate({
+        rules: {
+            country_id: {
+                required: true,
+                min: 1
+            },
+            name: {
+                required: true,
+            },
+            name_en: {
+                required: true,
+            },
+            city_id: {
+                required: true,
+                min: 1
+            },
+            'sub_max_age[0][0]': {
+                dateRangeMax: true,
+            },
+            'sub_min_age[0][0]': {
+                dateRangeMin: true,
+            },
+            currency: {
+                required: true,
+                min: 1 
+            },
+            supplier_id: {
+            	required: true,
+            	min: 1
+            }
+        },
+        messages: {
+            name: {
+                required: '活动名称必填',
+                min: '活动称必填'
+            },
+            name_en: {
+                required: '活动英文名称必填',
+                min: '活动英文名称必填'
+            },
+            country_id: {
+                required: '请选择活动所属国家',
+                min: '请选择供应商所属国家'
+            },
+            city_id: {
+                required: '请选择活动所属国家',
+                min: '请选择供应商所属国家'
+            },
+            currency: {
+                required: '请选择货币',
+                min: '请选择货币'
+            },
+            supplier_id: {
+            	required: "请选择供应商",
+            	min: "请选择供应商"
+            }
+        },
+        submitHandler: function(form){
+            if (window.ace.repeat_validate('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en'])) {
+                form.submit();
+            } else {
+                $('html, body').animate({scrollTop: 45}, 'fast');
+                console.log("12");
+                return false;
+            }
+        }
+    });
+	
+    window.ace.is_repeat('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en']);
+    window.ace.opentime_validate_init();
+    window.ace.opentime_init();
+    window.ace.widget_list_init();
+    window.ace.widget_price_validate_init();
+    window.ace.purchase_way_init();
+    window.ace.one_group_clone_init();
+    window.ace.file_list_init(fileDomain, fileUploadDomain);
+    window.ace.pic_upload("photo", picDomain, picUploadDomain);
+    window.ace.file_upload("schedule", fileDomain, fileUploadDomain);
+	$("[id^='others-']").each(function(){
+		var id = $(this).attr("id");
+		window.ace.other_files_upload(id, fileDomain, fileUploadDomain);
+	});
+
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        // 加载完成后的操作
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        //加载完成后的操作
+        $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+    
+});
+
+    $("select[name='country_id']").on("change",function(){
+        $.ajax({
+            type: 'POST',
+            url: '../supplier/getCityByCountryId',
+            data:{
+                country_id: $("select[name='country_id']").val()
+            },
+            success: function(data){
+                $("select[name='city_id'] option").remove(".main");
+                var city_list = JSON.parse(data);
+                for(var key in city_list)
+                {
+                	var city_list_id = city_list[key]['id'];
+                	$("select[name='city_id']").append("<option value='"+city_list_id+"' class='main'>"+city_list[key]['name']+"</option>");
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '../activity/getSupplierByCityId',
+                    data:{
+                        city_id: $("select[name='city_id']").val()
+                    },
+                    success:function(data){
+                        $("select[name='supplier_id'] option").remove(".main");
+                        var supplier_list = JSON.parse(data);
+                        for(var key in supplier_list)
+                        {
+                        	var supplier_list_id = supplier_list[key]['id'];
+                            $("select[name='supplier_id']").append("<option value='"+supplier_list_id+"' class='main'>"+supplier_list[key]['name']+"</option>");
+                        }
+                        window.ace.repeat_validate('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en']);
+                    }
+                });
+            }
+        });
+     
+    });
+    
+    $("select[name='city_id']").on("change",function(){
+        $.ajax({
+            type: 'POST',
+            url: '../activity/getSupplierByCityId',
+            data:{
+                city_id: $("select[name='city_id']").val()
+            },
+            success:function(data){
+                $("select[name='supplier_id'] option").remove(".main");
+                var supplier_list = JSON.parse(data);
+                for(var key in supplier_list)
+                {
+                	var supplier_list_id = supplier_list[key]['id'];
+                    $("select[name='supplier_id']").append("<option value='"+supplier_list_id+"' class='main'>"+supplier_list[key]['name']+"</option>");
+                }
+                window.ace.repeat_validate('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en']);
+            }
+        });
+    });
+
+</script>

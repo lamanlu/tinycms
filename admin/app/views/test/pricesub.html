@@ -1,0 +1,32 @@
+<h3 class="header smaller lighter blue">景点表单</h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('test/saveprice');?>" method="post">
+        <?php echo create_sub_price_form();?>
+        <div class="form-group">
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok bigger-110"></i>
+                    保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                    <i class="icon-undo bigger-110"></i>
+                    返回
+                    </button>
+                </div>
+            </div>
+        </div>
+</form>
+
+<!-- 景点表单的方法 -->
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        
+        window.ace.widget_list_init();
+        window.ace.widget_price_validate_init();
+
+    })
+
+</script>

@@ -1,0 +1,779 @@
+    <h3 class="header smaller lighter blue">酒店/公寓、别墅</h3>
+    <form id="dataForm3" class="form-horizontal" role="form" action="/hotel/save" method="post">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">国家：</label>
+            <div class="col-sm-3 readonly">
+                <select class="form-control" name="country">
+                    <option value="0">--请选择--</option>
+					<?php foreach($countryList as $country):?>
+                	<option value="<?php echo $country['id'];?>"><?php echo $country['name'];?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">城市：</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="city">
+                    <option value="0" class="main">--请选择--</option>
+					<?php foreach($cityList as $city):?>
+            	<option value="<?php echo $city['id'];?>" class="main"><?php echo $city['name'];?></option>
+					<?php endforeach;?>					
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">类别</label>
+            <div class="col-sm-3">
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="1" name="main-type">
+                    <span class="lbl">&nbsp;酒店</span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="2" name="main-type">
+                    <span class="lbl">&nbsp;公寓/别墅</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">名称：</label>
+            <div class="col-sm-3">
+                <input class="form-control" name="name" placeholder="中文名称" type="text" value="<?php echo $Hotel['name']?>"/>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control" name="name_en" placeholder="英文名称" type="text" value="<?php echo $Hotel['name_en']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">星级</label>
+            <div class="col-sm-6">
+                <ul class="star-rating">
+					<?php for($i = 0; $i < $Hotel['star'] ; $i++):?>
+					<li class="star-level"><span class="icon-2x icon-star" aria-hidden="true"></span></li>
+					<?php endfor;?>
+					
+					<?php for($i = $Hotel['star']; $i < 5 ; $i++):?>
+					<li class="star-level"><span class="icon-2x icon-star-empty" aria-hidden="true"></span></li>
+					<?php endfor;?>
+                </ul>
+                <input id="star_level_input" type="hidden" name="rank" value="<?php echo $Hotel['star']?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">特色标签(可多选)</label>
+            <div class="col-sm-8">
+				<?php foreach($tagList as $key => $value):?>
+				<label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $key;?>" name="tags[]" <?php if($value['checked'] == '1'){echo "checked";}?>/>
+                    <span class="lab label-sin"><?php echo $value['tag_name'];?></span>
+                </label>
+				<?php endforeach;?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">简介：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="desc"><?php echo $Hotel['desc'];?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">游客注意事项：</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" name="attention" type="text"><?php echo  $Hotel['attention']?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">照片：</label>
+            <div class="col-sm-3 photo-wrap">
+                <input type="file" id="photo" class="form-control" data-name="photo" />
+            </div>
+            <div class="col-sm-5">
+                <span class="input-tips">图片格式为jpg、png，1-3张，大小不超过2M</span>
+            </div>
+        </div>
+        <div class="pic-wall">
+			<?php foreach($Hotel['photo'] as $img) :?>
+			<div>
+				<a href="<?php echo $imgDomain.$img;?>" target="_blank"><img src="<?php echo $imgDomain.$img;?>" style="width:160px;"><i class="icon-large icon-remove red"></i></a>
+					<input type="hidden" value="<?php echo $img;?>" name="photo[]">
+			</div>
+			<?php endforeach;?>			
+		</div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">网址(对外)：</label>
+            <div class="col-sm-6">
+                <input class="form-control" name="website" type="text" value="<?php echo  $Hotel['website']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Booking链接</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="booking_link" value="<?php echo  $Hotel['booking_url']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址：</label>
+            <div class="col-sm-6">
+                <input class="form-control" name="address" type="text" value="<?php echo  $Hotel['address']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">电话：</label>
+            <div class="col-sm-3">
+                <input class="form-control" name="tel" type="text" value="<?php echo  $Hotel['tel']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">传真：</label>
+            <div class="col-sm-3">
+                <input class="form-control" name="fax" type="text" value="<?php echo  $Hotel['fax']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">货币：</label>
+            <div class="col-sm-3">
+                <select name="currency" id="" class="form-control">
+                    <option value="0">--货币类型--</option>
+					<?php foreach(config_item('currency') as $key => $value):?>
+					<option value="<?php echo $key;?>"><?php echo $value?></option>
+					<?php endforeach;?>					
+                </select>
+            </div>
+        </div>
+        <div class="hotel-container">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">早餐价格：</label>
+            <div class="col-sm-3">
+                <input class="form-control" name="hotel_breakfast_price" type="text" value="<?php echo $Hotel['breakfast_price']?>"/>
+            </div>
+			</div>
+			<?php if(empty($Hotel['price_list']) || $Hotel['type'] == 2):?>
+            <div class="form-group">
+			<input type="hidden" name="hotel_room_id[]" value=""/>
+			<input type="hidden" name="hotel_room_type[]" value="1"/>
+                <label for="" class="control-label col-sm-3">房间类型：</label>
+                <div class="col-sm-2">
+                    <input type="text" name="hotel_room_title[]" class="form-control" placeholder="房间类型">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" placeholder="价格" name="hotel_room_price[]">
+                </div>
+				<div class="col-sm-2">
+                    <input type="text" name="hotel_room_intro[]" class="form-control" placeholder="备注">
+                </div>
+                <div class="col-sm-1 btn-wrap group-btn-wrap">
+                    <i class="control-label icon-large icon-plus-sign green" data-action="group-clone"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-3 radio-wrap">
+                    <label class="lbl">早餐：</label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="1" name="hotel_room_ext_1[]" checked>
+                        <span class="lbl">&nbsp;有</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="0" name="hotel_room_ext_1[]">
+                        <span class="lbl">&nbsp;无</span>
+                    </label>
+                </div>
+                <div class="col-sm-3 btn-wrap">
+                    <input type="file" id="hotel_room_image-0" class="form-control" data-name="hotel_room_image[0]">
+                </div>
+            </div>
+            <div class="pic-wall"></div>
+			<?php elseif($Hotel['type'] == 1):?>
+			<?php
+                $i = 0;
+                foreach($Hotel['price_list'] as $price):
+                $label = empty($i)?'房间类型：':'';
+                $btn = '<i class="control-label icon-large icon-plus-sign green" data-action="group-clone"></i>';
+                if($i > 0){
+                    $btn = '<i class="control-label icon-large icon-remove-sign grey" data-action="group-close"></i>';
+                }
+            ?>
+			 <div class="form-group">
+			<input type="hidden" name="hotel_room_id[]" value="<?php echo $price['id'];?>"/>
+			<input type="hidden" name="hotel_room_type[]" value="1"/>
+                <label for="" class="control-label col-sm-3"><?php echo $label?></label>
+                <div class="col-sm-2">
+                    <input type="text" name="hotel_room_title[]" class="form-control" placeholder="房间类型" value="<?php echo $price['title'];?>">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" placeholder="价格" name="hotel_room_price[]" value="<?php echo $price['price'];?>">
+                </div>
+				<div class="col-sm-2">
+                    <input type="text" name="hotel_room_intro[]" class="form-control" placeholder="备注" value="<?php echo $price['remark'];?>">
+                </div>
+                <div class="col-sm-1 btn-wrap group-btn-wrap">
+                  <?php echo $btn;?>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-3 radio-wrap">
+                    <label class="lbl">早餐：</label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="1" name="hotel_room_ext_1[<?php echo $i;?>]" <?php if($price['ext_1']=='1'):?>checked<?php endif;?>>
+                        <span class="lbl">&nbsp;有</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="0" name="hotel_room_ext_1[<?php echo $i;?>]" <?php if($price['ext_1']=='0'):?>checked<?php endif;?>>
+                        <span class="lbl">&nbsp;无</span>
+                    </label>
+                </div>
+                <div class="col-sm-3 btn-wrap">
+                    <input type="file" id="hotel_room_image-<?php echo $i;?>" class="form-control" data-name="hotel_room_image[<?php echo $i;?>]">
+                </div>
+            </div>
+            <div class="pic-wall">
+				<?php foreach($price['images'] as $image):?>
+				<div>
+					<a target="_blank" href="<?php echo $imgDomain.$image;?>"><img src="<?php echo $imgDomain.$image;?>"><i class="icon-large icon-remove red"></i></a>
+					<input name="hotel_room_image[<?php echo $i;?>][]" value="<?php echo $image;?>" type="hidden">
+				</div>
+				<?php endforeach;?>
+			</div>
+			   <?php $i++; endforeach;?>
+        <?php endif;?>
+        </div>
+        <div class="department-container">
+            <div class="form-group">
+                <label class="control-label col-sm-3">总面积：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="area" class="form-control" value="<?php echo $Hotel['area']?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">可入住人数：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="available_to_stay" class="form-control" value="<?php echo $Hotel['available_to_stay']?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">价格：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="villa_price" class="form-control" value="<?php echo $Hotel['villa_price']?>">
+                </div>
+            </div>
+			<?php if(empty($Hotel['price_list']) || $Hotel['type'] == 1):?>
+            <div class="form-group">
+				<input type = "hidden" name="villa_room_id[]" value=""/>
+				<input type = "hidden" name="villa_room_type[]" value="1">
+                <label class="control-label col-sm-3">房间类型：</label>
+                <div class="col-sm-2">
+                    <input type="text" name="villa_room_title[]" class="form-control" placeholder="房间类型">
+                </div>
+                <div class="col-sm-1">
+                    <input type="text" name="villa_room_price[]" class="form-control" placeholder="数量">
+                </div>
+                <div class="col-sm-3 file-btn-wrap">
+                    <input type="file" id="villa_room_image-0" class="form-control" data-name="villa_room_image[0]">
+                </div>
+                <div class="col-sm-1 one-group-btn-wrap btn-wrap">
+                    <i class="icon-large icon-plus-sign green control-label" data-action="group-clone"></i>
+                </div>
+            </div>
+            <div class="pic-wall"></div>
+			<?php elseif($Hotel['type'] == 2):?>
+			<?php 
+            $i = 0;
+            foreach($Hotel['price_list'] as $price):
+                $label = empty($i)?'房间类型：':'';
+                $btn = '<i class="icon-large icon-plus-sign green control-label" data-action="group-clone"></i>';
+                if($i > 0){
+                    $btn = '<i class="icon-large control-label icon-remove-sign grey" data-action="group-close"></i>';
+                }
+            ?>
+			    <div class="form-group">
+				<input type = "hidden" name="villa_room_id[]" value="<?php echo $price['id']?>"/>
+				<input type = "hidden" name="villa_room_type[]" value="1">
+                <label class="control-label col-sm-3"><?php echo $label;?></label>
+                <div class="col-sm-2">
+                    <input type="text" name="villa_room_title[]" class="form-control" placeholder="房间类型" value="<?php echo $price['title'];?>">
+                </div>
+                <div class="col-sm-1">
+                    <input type="text" name="villa_room_price[]" class="form-control" placeholder="数量" value="<?php echo $price['price'];?>">
+                </div>
+                <div class="col-sm-3 file-btn-wrap">
+                    <input type="file" id="villa_room_image-<?php echo $i;?>" class="form-control" data-name="villa_room_image[<?php echo $i;?>]">
+                </div>
+                <div class="col-sm-1 one-group-btn-wrap btn-wrap">
+					<?php echo $btn;?>
+                </div>
+            </div>
+            <div class="pic-wall">
+				<?php foreach($price['images'] as $image):?>
+				<div>
+					<a target="_blank" href="<?php echo $imgDomain.$image;?>"><img src="<?php echo $imgDomain.$image;?>"><i class="icon-large icon-remove red"></i></a>
+					<input name="villa_room_image[<?php echo $i;?>][]" value="<?php echo $image;?>" type="hidden">
+				</div>
+				<?php endforeach;?>
+			</div>
+			<?php $i++; endforeach;?>
+			<?php endif;?>
+            <div class="form-group">
+                <label class="control-label col-sm-3">有无早餐：</label>
+                <div class="col-sm-2">
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="1" name="breakfast" <?php  if($Hotel['breakfast'] == 1)echo "checked";?>>
+                        <span class="lbl">&nbsp;有</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="0" name="breakfast" <?php  if($Hotel['breakfast'] == 0)echo "checked";?>>
+                        <span class="lbl">&nbsp;无</span>
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" name="villa_breakfast_price" class="form-control" placeholder="早餐价格" value = "<?php echo $Hotel['breakfast_price']?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">毛巾/床单价格：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="tower_price" class="form-control" value="<?php echo $Hotel['tower_price']?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">清洁费：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="cleaning_price" class="form-control" value="<?php echo $Hotel['cleaning_price']?>">
+                </div>
+            </div>
+        </div>
+		<?php if(empty($Hotel['bed_price_list'])):?>
+        <div class="form-group">
+			<input type="hidden" name="add_bed_id[]" value="">
+			<input type="hidden" name="add_bed_type[]" value="1">
+            <label for="" class="control-label col-sm-3">加床：</label>
+            <div class="col-sm-2">
+                <input type="text" name="add_bed_title[]" class="form-control" placeholder="加床类型">
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="add_bed_price[]" class="form-control" placeholder="价格">
+            </div>
+            <div class="col-sm-1 btn-wrap one-group-btn-wrap">
+                <i class="icon-large icon-plus-sign green control-label" data-action="one-group-clone"></i>
+            </div>
+        </div>
+		<?php else:?>
+        <?php 
+            $i = 0;
+            foreach($Hotel['bed_price_list'] as $price):
+                $label = empty($i)?'加床：':'';
+                $btn = '<i class="icon-plus-sign icon-large green control-label" data-action="one-group-clone"></i>';
+                if($i > 0){
+                    $btn = '<i class="icon-large control-label icon-remove-sign grey" data-action="one-group-close"></i>';
+                }
+        ?>
+		    <div class="form-group">
+			<input type="hidden" name="add_bed_id[]" value="<?php echo $price['id']?>">
+			<input type="hidden" name="add_bed_type[]" value="1">
+            <label for="" class="control-label col-sm-3"><?php echo $label?></label>
+            <div class="col-sm-2">
+                <input type="text" name="add_bed_title[]" class="form-control" placeholder="加床类型" value="<?php echo $price['title'];?>">
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="add_bed_price[]" class="form-control" placeholder="价格" value="<?php echo $price['price']?>">
+            </div>
+            <div class="col-sm-1 btn-wrap one-group-btn-wrap">
+                <?php echo $btn?>
+            </div>
+        </div>
+        <?php $i++; endforeach;?>
+    <?php endif;?>	
+        <div class="form-group">
+            <label class="control-label col-sm-3">订金：</label>
+            <div class="col-sm-3">
+                <input type="text" name="deposit" class="form-control" placeholder="价格" value="<?php echo $Hotel['deposit']?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">入住时间：</label>
+            <div class="col-sm-3">
+                <div class="inline">
+                    <input id="checkin_time_begin" type="text" name="stay_time_from" class="input-small" placeholder="起始入住时间" value="<?php echo $Hotel['stay_time_from']?>">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input id="checkin_time_end" type="text" name="stay_time_to" class="input-small" placeholder="结束入住时间" value="<?php echo $Hotel['stay_time_to']?>">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">退房时间：</label>
+            <div class="col-sm-3">
+                <div class="inline">
+                    <input id="checkout_time_begin" type="text" name="leave_time_from" class="input-small" placeholder="起始退房时间" value="<?php echo $Hotel['leave_time_from']?>">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input id="checkout_time_end" type="text" name="leave_time_to" class="input-small" placeholder="起始退房时间" value="<?php echo $Hotel['leave_time_to']?>">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">WiFi：</label>
+            <div class="col-sm-3">
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="1" name="wifi" <?php  if($Hotel['wifi'] == 1)echo "checked";?>>
+                    <span class="lbl">&nbsp;有</span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="0" name="wifi" <?php  if($Hotel['wifi'] == 0)echo "checked";?>>
+                    <span class="lbl">&nbsp;无</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">停车场：</label>
+            <div class="col-sm-2">
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="1" name="parking" <?php  if($Hotel['parking'] == 1)echo "checked";?>>
+                    <span class="lbl">&nbsp;有</span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="0" name="parking" <?php  if($Hotel['parking'] == 0)echo "checked";?>>
+                    <span class="lbl">&nbsp;无</span>
+                </label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" name="parking_price" class="form-control" placeholder="停车费用" value="<?php echo $Hotel['parking_price']?>">
+            </div>
+        </div>
+		<?php echo create_opentime_form($openTime);?>
+        <div class="form-group">
+            <label class="control-label col-sm-3">开放时间备注：</label>
+            <div class="col-sm-6">
+                <input type="text" name="open_time_remark" class="form-control" value="<?php echo $Hotel['open_time_remark']?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">购买方式(可多选)</label>
+            <div class="col-sm-9">
+            <?php foreach(config_item('purchases') as $key => $value):?>
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $key;?>" name="purchases[]" <?php foreach($Hotel['purchase_way'] as $check){ if($check == $key){echo "checked";}} ?>>
+                    <span class="lbl">&nbsp;<?php echo $value;?></span>
+                </label>
+            <?php endforeach;?>
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('1',$Hotel['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_website" class="form-control" value="<?php echo $Hotel['booking_website']?>">
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('2',$Hotel['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订邮箱</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_email" class="form-control" value="<?php echo $Hotel['booking_email']?>">
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('3',$Hotel['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_tel" class="form-control" value="<?php echo $Hotel['booking_tel']?>">
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('4',$Hotel['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">购买地址</label>
+            <div class="col-sm-5">
+                <input type="text" name="purchases_address" class="form-control" value="<?php echo $Hotel['purchase_address']?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">旅行设计师备注：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="remark"><?php echo $Hotel['designer_remark'];?></textarea>
+            </div>
+        </div>
+		<input type="hidden" name="id" value="<?php echo $Hotel['id']?>">
+        <div class="form-group">
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok bigger-110"></i>
+                    保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                    <i class="icon-undo bigger-110"></i>
+                    返回
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script>
+$(function () {
+	
+	/*页面初始化开始*/
+	$("select[name='country']").val("<?php echo $Hotel['country_id']?>");
+	
+	$("select[name='city']").val("<?php echo $Hotel['city_id']?>");
+	
+	$("select[name='currency']").val("<?php echo $Hotel['currency']?>");
+        
+        $("input[name='parking']").eq(1).click(function(){
+            $("[name='parking_price']").val(0);
+        });
+        
+        $("input[name='breakfast']").eq(1).click(function(){
+            $("[name='villa_breakfast_price']").val(0);
+        });
+	
+	/*页面初始化结束*/
+    
+    var picDomain = "<?php echo $imgDomain?>";
+    var picUploadDomain = "<?php echo $imgUploadDomain?>";
+	
+	$("[id^='hotel_room_image-']").each(function(){
+    	var id = $(this).attr("id");
+    	window.ace.pic_upload(id, picDomain, picUploadDomain);
+	});
+	
+	$("[id^='villa_room_image-']").each(function(){
+    	var id = $(this).attr("id");
+    	window.ace.pic_upload(id, picDomain, picUploadDomain);
+	});
+
+    $(document).on("click", "[name='main-type']", function () {
+        var value = $(this).val();
+        if(value == "1") {
+            $(".hotel-container").show();
+            $(".department-container").hide();
+        } else {
+            $(".hotel-container").hide();
+            $(".department-container").show();
+        }
+    })
+	//初始化酒店/公寓别墅单选框
+	$("[name='main-type']").each(function(){
+		var type = "<?php echo $Hotel['type'];?>";
+		if($(this).attr("value") == type)
+		{
+			$(this).click();
+		}
+	});
+
+    $(document).on("click", ".group-btn-wrap i", function () {
+        var $this = $(this);
+        var p = $this.data("action");
+        if (p == "group-clone") {
+            var input_id = $this.parents(".form-group").next().find(".uploadify").attr("id");
+            var id = input_id.split("-")[0];
+            var count = $("[id^='" + id + "']").length / 3;
+            console.log(count);
+            var new_input_id = id + "-" + count;
+            console.log(new_input_id);
+            var $fragment = $(document.createDocumentFragment());
+            var $clone_node = $this.parents(".form-group").clone(false);
+            //清空输入框中的内容
+            $clone_node.find("input:not([name='hotel_room_type[]'])").val("")
+                .end().find("select").val("0")
+                .end().find("label.control-label").text("")
+                .end().find(".group-btn-wrap i").removeClass("icon-plus-sign green").addClass("icon-remove-sign grey").data("action", "group-close");
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().clone(true);
+            $clone_node.find("input[type='text']").val("")
+                .end().find("select").val("0")
+                .end().find("label.control-label").text("")
+                //修改上传输入,重新调用上传的方法
+                .end().find(".btn-wrap").empty().append("<input type='file' id='" + new_input_id + "' data-name='" + id + "[" + count + "]'>");
+            $clone_node.find("input[type='radio']").attr("name", $clone_node.find("input[type='radio']").attr("name") + Math.random());
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().next().clone(true);
+            $clone_node.empty();
+            $fragment.append($clone_node);
+            var $attach = $this.parents(".form-group").next().next();
+            $attach.after($fragment);
+            adjustInner();
+            //绑定上传文件的方法
+            window.ace.pic_upload(new_input_id, picDomain, picUploadDomain)
+        } else {
+            if (p == "group-close") {
+                $this.parents(".form-group").next().remove().end().next().remove().end().remove();
+                adjustInner();
+            }
+        }
+
+        function adjustInner () {
+            $(".hotel-container").find(".radio-wrap").each(function (i, wrapVal) {
+                var $radio = $(wrapVal).find("input[type='radio']");
+                var name = $radio.attr("name").split("[");
+                $radio.attr("name", name[0] + "[" + i + "]");
+            })
+        }
+    })
+
+    $(document).on("click", ".one-group-btn-wrap i", function() {
+        var $this = $(this);
+        var p = $this.data("action");
+        if (p == "group-clone") {
+            var input_id = $this.parents(".btn-wrap").prev().find(".uploadify").attr("id");
+            var id = input_id.split("-")[0];
+            var count = $("[id^='" + id + "']").length / 3;
+            console.log(count);
+            var new_input_id = id + "-" + count;
+            console.log(new_input_id);
+            var $fragment = $(document.createDocumentFragment());
+            var $clone_node = $this.parents(".form-group").clone(false);
+            //清空输入框中的内容
+            $clone_node.find("input:not([name='villa_room_type[]'])").val("")
+                .end().find("select").val("0")
+                .end().find("label.control-label").text("")
+                .end().find(".one-group-btn-wrap i").removeClass("icon-plus-sign green").addClass("icon-remove-sign grey").data("action", "group-close")
+            //修改上传输入,重新调用上传的方法
+            .end().find(".file-btn-wrap").empty().append("<input type='file' id='" + new_input_id + "' data-name='villa_room_image["+count+"]'>");
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().clone(true);
+            $clone_node.empty()
+            $fragment.append($clone_node);
+            var $attach = $this.parents(".form-group").next();
+            $attach.after($fragment);
+            //绑定上传文件的方法
+            window.ace.pic_upload(new_input_id, picDomain, picUploadDomain)
+        } else {
+            if (p == "group-close") {
+                $this.parents(".form-group").next().remove().end().remove();
+            }
+        }
+    })
+
+    window.ace.opentime_init();
+    window.ace.opentime_validate_init();
+    window.ace.purchase_way_init();
+    window.ace.ranking_init();
+    window.ace.one_group_clone_init();
+    window.ace.pic_upload("photo", picDomain, picUploadDomain);
+    /*window.ace.pic_upload("depart_room_image-0", picDomain, picUploadDomain);*/
+
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+        $("#checkin_time_begin, #checkin_time_end, #checkout_time_begin, #checkout_time_end").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        })
+    }, function () {
+        console.log("file load failed!");
+    });
+	
+		//根据国家获取城市
+		$("select[name='country']").on("change",function(){
+		$.ajax({
+			type: 'POST',
+			url: '../city/getCityByCountryId',
+			data:{
+				country_id: $("select[name='country']").val()
+			},
+			success:function(data){
+				
+				$("select[name='city'] option").remove(".main");
+				var city_list = JSON.parse(data);
+				
+				for(var key in city_list)
+				{
+					$("select[name='city']").append("<option value='"+key+"' class='main'>"+city_list[key]['name']+"</option>");
+				}
+			}
+		});
+	});
+               	//表单验证
+		$("#dataForm3").validate({
+		rules: {
+			country: {
+                            required: true,
+			    min: 1			  
+			},
+			city: {
+                            required: true,
+                            min: 1
+			},
+			name_en: {
+                            required: true,
+			},
+			email: {
+                            email: true
+			},
+			salary: {
+                            number: true
+			},
+                        currency: {
+                            required: true,
+                            min: 1
+                        },
+                        hotel_breakfast_price: {
+                            number: true
+                        },
+                        deposit:{
+                            number: true
+                        },
+                        parking_price:{
+                            number: true
+                        },
+                        villa_price:{
+                            number: true
+                        }
+		},
+		messages: {
+			country: {
+                            required: '请选择国家',
+                            min: '请选择国家',
+			},
+			city: {
+                            required: '请选择城市',
+                            min: '请选择城市',
+			},
+			name_en: {
+                            required: '英文名字必填',
+			},
+			email: {
+                            email: '请输入正确的邮箱'
+			},
+			salary: {
+                            number: "必须为数字，小数"
+			},
+                        currency: {
+                            required: "货币必选",
+                            min: "货币必选"
+                        },
+                        hotel_breakfast_price: {
+                            number: "填数字啊"
+                        },
+                        deposit:{
+                            number: "填数字啊"
+                        },
+                        parking_price:{
+                            number: "填数字啊"
+                        },
+                        villa_price:{
+                            number: "填数字啊"
+                        }
+		}
+	});
+        
+})
+</script>

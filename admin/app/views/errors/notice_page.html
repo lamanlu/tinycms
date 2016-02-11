@@ -1,0 +1,41 @@
+<div class="error-container">
+    <div class="well">
+        <h1 class="grey lighter smaller">
+            <span class="blue bigger-125">
+                <i class="icon-sitemap"></i>
+                系统提示
+            </span>
+            
+        </h1>
+
+        <hr>
+
+        <div>
+            <div class="space"></div>
+
+            <ul class="list-unstyled spaced inline bigger-110 margin-15">
+            	<?php foreach($massages as $msg):?>
+                	<li>
+                        <i class="icon-hand-right blue"></i>
+                        <?php echo $msg;?>
+                    </li>
+                <?php endforeach;?>
+            </ul>
+        </div>
+
+        <hr>
+        <div class="space"></div>
+
+        <div class="center">
+            <a class="btn btn-grey" href="<?php echo $redirect_url;?>">
+                <i class="icon-arrow-left"></i>
+                返&emsp;回
+            </a>
+
+            <a class="btn btn-primary" href="<?php echo get_url('/');?>">
+                <i class="icon-dashboard"></i>
+                主&emsp;页
+            </a>
+        </div>
+    </div>
+</div>

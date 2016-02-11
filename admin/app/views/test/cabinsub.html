@@ -1,0 +1,86 @@
+<h3 class="header smaller lighter blue">舱位的sub表单</h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('test/saveprice');?>" method="post">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">价格：</label>
+        <div class="col-sm-6">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <div class="form-inline">
+                        <div class="inline">
+                            <label>
+                                <input type="text" class="input-small" name="cb_sub_type[0]" placeholder="舱位类型" data-type="person">
+                            </label>
+                        </div>
+                        <div class="inline pic-btn-wrap">
+                            <input type="file" id="cb_photo-0" name="cb_photo[0]" data-name="cb_photo[0]">
+                        </div>
+                        <input type="hidden" name="cb_sub_id[]">
+                        <div class="widget-toolbar">
+                            <!-- <a href="#" data-action="clone">
+                                <i class="icon-plus"></i>
+                            </a> -->
+                            <a data-action="collapse" href="#">
+                                <i class="icon-chevron-up"></i>
+                            </a>
+                            <!-- <a href="#" data-action="close">
+                                <i class="icon-remove"></i>
+                            </a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="widget-item">
+                            <input type="hidden" name="cb_sub_item_id[0][0]">
+                            <div class="widget-item-list">
+                                <div class="form-inline">
+                                    <input type="text" name="pr_item_title[0][0]" class="input-medium" placeholder="价格类型" />
+                                    <input type="text" name="pr_price[0][0]" class="input-medium" placeholder="价钱" />
+                                </div>
+                            </div>
+                            <div class="widget-item-btn-wrap btn-wrap">
+                                <i class="icon-large icon-plus-sign green" data-action="item-clone"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1 widget-box-btn-wrap btn-wrap">
+            <i class="icon-large icon-plus-sign green control-label" data-action="box-clone"></i>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-primary" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+                </button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                <i class="icon-undo bigger-110"></i>
+                返回
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- 景点表单的方法 -->
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+$(function () {
+
+    var picDomain = "http://img.mustardseed.org";
+    var picUploadDomain = 'http://upload.mustardseed.org/image';
+
+    window.ace.pic_upload('cb_photo-0', picDomain, picUploadDomain);
+    window.ace.widget_list_init(picDomain, picUploadDomain);
+    window.ace.widget_price_validate_init();
+
+    $("[type='submit']").click(function (e) {
+        e.preventDefault();
+        console.log(decodeURI($("#dataForm").serialize()));
+    })
+})
+</script>

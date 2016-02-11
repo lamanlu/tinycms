@@ -1,0 +1,513 @@
+<html>
+<head></head>
+<body>
+    <h3 class="header smaller lighter blue">编辑邮轮/火车</h3>
+     <form novalidate="novalidate" class="form-horizontal" id="dataForm" action="<?php echo get_url('traffic/save');?>" method="post" enctype="multipart/form-data"> 
+   <input type="hidden" name="id" value="<?php echo $traffic['id'];?>">
+   <div class="form-group">
+     <label for="" class="col-sm-3 control-label">类别：</label>
+     <div class="col-sm-3">
+         <label class="radio-inline">
+             <input type="radio" class="ace" value="1" name="type" <?php if($traffic['type'] == '1'){?><?php echo "checked";}?>>
+             <span class="lbl">&nbsp;邮轮</span>
+         </label>
+         <label class="radio-inline">
+             <input type="radio" class="ace" value="2" name="type" <?php if($traffic['type'] == '2'){?><?php echo "checked";}?>>
+             <span class="lbl">&nbsp;火车</span>
+         </label>
+     </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">中文名称：</label>
+    <div class="col-sm-3">
+     <input  class="form-control input" name="name" type="text" value="<?php echo $traffic['name'];?>"/>
+    </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">英文名称：</label>
+    <div class="col-sm-3">
+     <input  class="form-control input" name="name_en" type="text" value="<?php echo $traffic['name_en'];?>"/>
+    </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">简介：</label>
+    <div class="col-sm-6">
+     <textarea  rows="2" class="form-control" name="intro" value="<?php echo $traffic['intro'];?>"><?php echo $traffic['intro'];?></textarea>
+    </div>
+   </div>   
+   <div class="form-group">
+            <label class="col-sm-3 control-label">游客注意事项：</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" name="attention" type="text"><?php echo $traffic['visitors_attention'];?></textarea>
+            </div>
+   </div>
+   <div class="form-group">
+     <label class="col-sm-3 control-label">照片：</label>
+     <div class="col-sm-3 photo-wrap">
+         <input type="file" id="photo" class="form-control" data-name="photo" />
+     </div>
+     <div class="col-sm-5">
+         <span class="input-tips">图片格式为jpg、png，0-9张，大小不超过2M</span>
+     </div>
+   </div>
+   <div class="pic-wall">
+   <?php if(!empty($traffic['images'])){?>
+        <?php foreach($traffic['images'] as $img):?>
+             <div>
+                <a href="<?php echo $imgDomain.$img;?>" target="_blank"><img src="<?php echo $imgDomain.$img;?>" style="width:160px;"><i class="icon-large icon-remove red"></i></a>
+                <input type="hidden" value="<?php echo $img;?>" name="photo[]">
+            </div>
+   <?php endforeach;}?>
+   </div>   
+   <div class="form-group">
+    <label class="col-sm-3 control-label">网站：</label>
+    <div class="col-sm-6">
+     <input  class="form-control input" name="website" type="text" value="<?php echo $traffic['website'];?>"/>
+    </div>
+   </div>
+   <div class="form-group">
+        <label class="col-sm-3 control-label">附件：</label>
+        <div class="col-sm-3 file-wrap">
+            <input id="others-1" type="file" class="form-control" data-name="other_attachment[]" />
+        </div>
+   </div>
+   <div class="file-wall"></div>
+   <?php echo @attachmentHtml($traffic['files'],$fileDomain);?>        
+   <div class="form-group">
+     <label class="control-label col-sm-3">城市：</label>
+     <div class="col-sm-6">
+         <div class="inline">
+	         <select class="input-medium" name="start_city">
+	         	<option value="0">出发城市</option>
+	            <?php foreach($allCityList as $CityList):?>
+	            <optgroup label="<?php echo $CityList['country_name'];?>">
+	            <?php foreach($CityList[city_list] as $list):?>
+				<option value="<?php echo $list['id'];?>" class="main" <?php if($traffic['start_city'] == $list['id']){?><?php echo "selected='selected'";}?>><?php echo $list['name'];?></option>
+	            <?php endforeach;?>
+	            </optgroup>
+	        	<?php endforeach;?>
+	         </select>
+         </div>
+         <span>至</span>
+         <div class="inline">
+	         <select class="input-medium" name="arrive_city">
+	         	<option value="0">抵达城市</option>
+	            <?php foreach($allCityList as $CityList):?>
+	            <optgroup label="<?php echo $CityList['country_name'];?>">
+	            <?php foreach($CityList[city_list] as $list):?>
+				<option value="<?php echo $list['id'];?>" class="main" <?php if($traffic['arrive_city'] == $list['id']){?><?php echo "selected='selected'";}?>><?php echo $list['name'];?></option>
+	            <?php endforeach;?>
+	            </optgroup>
+	         <?php endforeach;?>
+	         </select>
+         </div>
+     </div>
+   </div>
+   <div class="form-group">
+     <label class="control-label col-sm-3">港口：</label>
+     <div class="col-sm-6">
+         <div class="inline">
+             <input type="text" name="start_port" class="input-medium" placeholder="出发港口" value="<?php echo $traffic['start_port'];?>">
+         </div>
+         <span>至</span>
+         <div class="inline">
+             <input type="text" name="arrive_port" class="input-medium" placeholder="抵达港口" value="<?php echo $traffic['arrive_port'];?>">
+         </div>
+     </div>
+   </div>
+   <?php echo timetableList($traffic['time_table']);?> 
+   <div class="form-group">
+            <label for="" class="col-sm-3 control-label">货币：</label>
+            <div class="col-sm-3">
+                <select name="currency" id="" class="form-control">
+                    <option value="0">货币类型</option>
+                 <?php foreach(config_item('currency') as $currency_key => $currency_child):?>
+						<option value="<?php echo $currency_key;?>" <?php if($currency_key == $traffic['currency']){?><?php echo "selected='selected'";}?>><?php echo $currency_child;?></option>
+                <?php endforeach;?>               
+                </select>
+            </div>
+   </div>
+   <!-- 游轮价格 -->
+   <div class="ship-container" <?php if($traffic['type'] == 2){?><?php echo 'style = "display:none"';}?>>
+	<?php echo @lourSubList($priceSubList,$imgDomain);?>
+   </div>
+   <!-- 火车价格 -->
+   <div class="train-container" <?php if($traffic['type'] == 1){?><?php echo 'style = "display:none"';}?>>
+   <?php if(empty($priceList)){?>
+            <div class="form-group">
+                <label class="control-label col-sm-3">舱位：</label>
+                <div class="col-sm-2">
+                    <input type="hidden" name="cb_train_id[]" value=""/>
+                    <input type="hidden" name="cb_train_type[]" value="2"/>
+                    <input type="text" name="cb_train_title[]" class="form-control" placeholder="舱位类型">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" name="cb_train_price[]" class="form-control" placeholder="价格">
+                </div>
+                <div class="col-sm-3 file-wrap">
+                    <input type="file" name="cb_train_image[]" class="form-control" id="cb_train_image-0" data-name="cb_train_image[0]">
+                </div>
+                <div class="col-sm-1 btn-wrap cabin-btn-wrap">
+                    <i class="control-label icon-large icon-plus-sign green" data-action="one-group-clone"></i>
+                </div>
+            </div>
+            <div class="pic-wall"></div>
+   <?php }else{
+		$i=0;?>
+	<?php	foreach($priceList as $price):
+			    $lable = empty($i)?'舱位：':'';
+                $btn = '<i class="icon-large icon-plus-sign green" data-action="one-group-clone"></i>';
+                if($i > 0){
+                    $btn = '<i class="icon-large control-label icon-remove-sign grey" data-action="one-group-close"></i>';
+                }
+   ?>
+            <div class="form-group">
+                <label class="control-label col-sm-3"><?php echo $lable;?></label>
+                <div class="col-sm-2">
+                    <input type="hidden" name="cb_train_id[]" value="<?php echo $price['id'];?>"/>
+                    <input type="hidden" name="cb_train_type[]" value="2"/>
+                    <input type="text" name="cb_train_title[]" class="form-control" placeholder="舱位类型" value="<?php echo $price['title'];?>">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" name="cb_train_price[]" class="form-control" placeholder="价格" value="<?php echo $price['price'];?>">
+                </div>
+                <div class="col-sm-3 file-wrap">
+                    <input type="file" name="cb_train_image[]" class="form-control" id="cb_train_image-<?php echo $i;?>" data-name="<?php echo 'cb_train_image'.'['.$i.']';?>">
+                </div>
+                <div class="col-sm-1 btn-wrap cabin-btn-wrap">
+                    <?php echo $btn;?>
+                </div>
+            </div>
+            <div class="pic-wall">
+            <?php foreach($price['images'] as $price_img):?>
+            <div>
+                <a target="_blank" href="<?php echo $imgDomain.$price_img;?>"><img src="<?php echo $imgDomain.$price_img;?>" /><i class="icon-large icon-remove red"></i></a>
+                <input name="<?php echo 'cb_train_image'.'['.$i.']'.'[]';?>" value="<?php echo $price_img;?>" type="hidden" />
+           </div>
+           <?php endforeach;?>
+            </div>
+           <?php $i++; endforeach;}?>
+          </div>
+   <div class="form-group">
+            <label class="control-label col-sm-3">购买方式(可多选)：</label>
+            <div class="col-sm-9">
+            <?php foreach(config_item('purchases') as $purchases_key => $child):?>
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $purchases_key;?>" name="purchases[]" >
+                    <span class="lbl">&nbsp;<?php echo $child;?></span>
+                </label>
+            <?php endforeach;?>
+            </div>
+        </div>
+   <div class="form-group"  <?php if(in_array('1',explode(',',$traffic['purchases']))){?><?php }else{?><?php echo 'style="display:none"';}?>>
+       <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+       <div class="col-sm-5">
+           <input type="text" name="reserve_website" class="form-control" value="<?php echo $traffic['reserve_website'];?>">
+       </div>
+   </div>
+   <div class="form-group" <?php if(in_array('2',explode(',',$traffic['purchases']))){?><?php }else{?><?php echo 'style="display:none"';}?>>
+       <label for="" class="control-label col-sm-offset-3 col-sm-1" >预订邮箱</label>
+       <div class="col-sm-5">
+           <input type="text" name="reserve_email" class="form-control" value="<?php echo $traffic['reserve_email'];?>">
+       </div>
+   </div>
+   <div class="form-group" <?php if(in_array('3',explode(',',$traffic['purchases']))){?><?php }else{?><?php echo 'style="display:none"';}?>>
+       <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+       <div class="col-sm-5">
+           <input type="text" name="reserve_tel" class="form-control" value="<?php echo $traffic['reserve_tel'];?>">
+       </div>
+   </div>
+   <div class="form-group" <?php if(in_array('4',explode(',',$traffic['purchases']))){?><?php }else{?><?php echo 'style="display:none"';}?>>
+       <label for="" class="control-label col-sm-offset-3 col-sm-1" >购买地址</label>
+       <div class="col-sm-5">
+           <input type="text" name="purchases_address" class="form-control" value="<?php echo $traffic['purchases_address'];?>">
+       </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">早餐费用：</label>
+    <div class="col-sm-1">
+     <input  class="form-control input" name="bf_price" placeholder="早餐费用" type="text" value="<?php echo $traffic['bf_price'];?>"/>
+    </div>
+   </div>
+    <div class="form-group">
+     <label class="control-label col-sm-3">WiFi：</label>
+     <div class="col-sm-3">
+         <label class="radio-inline">
+             <input type="radio" class="ace" value="1" name="wifi_whether" <?php if($traffic['wifi_whether'] == '1'){?><?php echo "checked";}?>>
+             <span class="lbl">&nbsp;有</span>
+         </label>
+         <label class="radio-inline">
+             <input type="radio" class="ace" value="0" name="wifi_whether" <?php if($traffic['wifi_whether'] == '0'){?><?php echo "checked";}?>>
+             <span class="lbl">&nbsp;无</span>
+         </label>
+     </div>
+ 	</div>
+    <div class="form-group">
+     <label class="col-sm-3 control-label">旅行设计师备注：</label>
+     <div class="col-sm-6">
+         <textarea rows="2" class="form-control" name="remark" value="<?php echo $traffic['remark'];?>"><?php echo $traffic['remark'];?></textarea>
+     </div>
+ 	</div>
+        <div class="form-group">
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok bigger-110"></i>
+                    保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                    <i class="icon-undo bigger-110"></i>
+                    返回
+                    </button>
+                </div>
+            </div>
+        </div>
+  </form>
+</body>
+</html>
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+    var picDomain = "<?php echo $imgDomain;?>";
+    var picUploadDomain = '<?php echo $imgUploadDomain;?>';
+    var fileDomain = "<?php echo $fileDomain;?>";
+    var fileUploadDomain = "<?php echo $fileUploadDomain;?>";
+
+    window.ace.opentime_init();
+    window.ace.widget_list_init(picDomain, picUploadDomain);
+    window.ace.widget_price_validate_init();
+    window.ace.purchase_way_init();
+    window.ace.one_group_clone_init();
+    window.ace.file_list_init(fileDomain, fileUploadDomain);
+    window.ace.pic_upload("photo", picDomain, picUploadDomain);
+	$("[id^='cb_ship_image-']").each(function(){
+		var id = $(this).attr("id");
+		window.ace.pic_upload(id, picDomain, picUploadDomain);
+	});
+	$("[id^='cb_train_image-']").each(function(){
+		var id = $(this).attr("id");
+		window.ace.pic_upload(id, picDomain, picUploadDomain);
+	});
+	$("[id^='others-']").each(function(){
+		var id = $(this).attr("id");
+		window.ace.other_files_upload(id, fileDomain, fileUploadDomain);
+	});
+    
+    $(document).on("click", "[name='type']", function () {
+        var value = $(this).val();
+        if(value == "1") {
+            $(".ship-container").show();
+            $(".train-container").hide();
+        } else {
+            $(".ship-container").hide();
+            $(".train-container").show();
+        }
+    })
+	
+    $(document).on("click", ".breakfast-container input[type='radio']", function() {
+        var val = $(this).val();
+        if(val == "1") {
+            $(this).parents(".form-group").find("input.price").prop("disabled", false);
+        } else {
+            $(this).parents(".form-group").find("input.price").prop("disabled", true);
+        }
+    })
+
+    $(document).on("click", ".cabin-btn-wrap i", function() {
+        var $this = $(this);
+        var p = $this.attr("data-action");
+        console.log(p);
+        if (p == "one-group-clone") {
+            var input_id = $this.parents(".btn-wrap").prev().find(".uploadify").attr("id");
+            var id = input_id.split("-")[0];
+            var count = $("[id^='" + id + "']").length / 3;
+            var new_input_id = id + "-" + count;
+            var $group = $this.parents(".form-group");
+            var $fragment = $(document.createDocumentFragment());
+            var $clone_node = $group.clone(false);
+            //清空输入框中的内容
+            $clone_node.find("input").val("")
+                .end().find("select").val("0")
+                .end().find("label.control-label").text("")
+                .end().find(".cabin-btn-wrap i").removeClass("icon-plus-sign green").addClass("icon-remove-sign grey").attr("data-action", "one-group-close")
+            //修改上传输入,重新调用上传的方法
+            .end().find(".file-wrap").empty().append("<input type='file' id='" + new_input_id + "' data-name='" + id + "[" + count + "]'>");
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().clone(true);
+            $clone_node.empty()
+            $fragment.append($clone_node);
+            var $attach = $group.parents(".train-container");
+            $attach.append($fragment);
+            //绑定上传文件的方法
+            window.ace.pic_upload(new_input_id, picDomain, picUploadDomain)
+        } else {
+            if (p == "one-group-close") {
+                $this.parents(".form-group").next().remove().end().remove();
+            }
+        }
+    })
+
+    $("#dataForm").validate({
+        rules: {
+            start_city: {
+                required: true,
+                min: 1
+            },
+            name: {
+                required: true,
+            },
+            name_en: {
+                required: true,
+            },
+            arrive_city: {
+                required: true,
+                min: 1
+            },
+            bf_price: {
+            	number: true,
+            	min: 0
+            },
+            currency: {
+                required: true,
+                min: 1 
+            }
+        },
+        messages: {
+            name: {
+                required: '邮轮/火车工具名称必填',
+            },
+            name_en: {
+                required: '邮轮/火车工具名称必填',
+            },
+            start_city: {
+                required: '请选择该邮轮/火车工具所属城市',
+                min: '请选择该邮轮/火车工具所属城市'
+            },
+            arrive_city: {
+                required: '请选择活动所属城市',
+                min: '请选择供应商所属城市'
+            },
+            bf_price: {
+            	number: '价格必须是数字',
+            	min: '价格必需不小于0'
+            },
+            currency: {
+                required: '请选择货币',
+                min: '请选择货币'
+            }
+        },
+        submitHandler: function(form){
+            if (window.ace.repeat_validate('/traffic/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en'])) {
+                form.submit();
+            } else {
+                $('html, body').animate({scrollTop: 45}, 'fast');
+                console.log("12");
+                return false;
+            }
+        }
+    });
+	
+    window.ace.is_repeat('/traffic/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en']);
+
+
+	//购买方式的显示隐藏
+    $("input[name='purchases']").click(function () {
+        var value = $(this).val();
+        switch (value) {
+            case "1": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_website']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_website']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "2": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_email']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_email']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "3": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_tel']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_tel']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "4": {
+                if( $(this).is(":checked") ) {
+                    $("[name='purchases_address']").parents(".form-group").show();
+                } else {
+                    $("[name='purchases_address']").parents(".form-group").hide();
+                }
+                break;
+            }
+        }
+    })
+	
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        // 加载完成后的操作
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        //加载完成后的操作
+        $("[name='schedule_star[]'], [name='schedule_end[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+    
+	var pay_way = "<?php echo $purchases;?>";
+	var pay_arr = pay_way.split(",");
+	for(i=0;i< pay_arr.length; i++){
+		$("input[name='purchases[]']").each(function(){
+			if($(this).val() == pay_arr[i])
+			{
+				$(this).attr("checked","true");
+			}
+		});
+	}
+});
+
+    $("select[name='country_id']").on("change",function(){
+        $.ajax({
+            type: 'POST',
+            url: '../supplier/getCityByCountryId',
+            data:{
+                country_id: $("select[name='country_id']").val()
+            },
+            success: function(data){
+                $("select[name='city_id'] option").remove(".main");
+                var city_list = JSON.parse(data);
+                for(var key in city_list)
+                {
+                		var city_list_id = city_list[key]['id'];
+                		$("select[name='city_id']").append("<option value='"+city_list_id+"' class='main'>"+city_list[key]['name']+"</option>");
+                }
+
+            }
+        });
+    });
+
+</script>

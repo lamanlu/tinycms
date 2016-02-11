@@ -1,0 +1,336 @@
+<h3 class="header smaller lighter blue">景点表单</h3>
+<form id="dataForm3" class="form-horizontal" role="form" action="/view/save" method="post" >
+        <div class="form-group">
+            <label class="col-sm-3 control-label">国家：</label>
+            <div class="col-sm-3 readonly">
+                <select class="form-control" name="country">
+                    <option value="0">--请选择--</option>
+					 <?php foreach($countryList as $country):?>
+                	<option value="<?php echo $country['id'];?>"><?php echo $country['name'];?></option>
+                <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">城市：</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="city">
+                    <option value="0">--请选择--</option>
+					<?php foreach($cityList as $city):?>
+            	<option value="<?php echo $city['id'];?>" class="main"><?php echo $city['name'];?></option>
+					<?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">景点名称：</label>
+            <div class="col-sm-3">
+                <input class="form-control input" name="name" placeholder="中文名称" type="text" value="<?php echo $View['name']?>"/>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control input" name="name_en" placeholder="英文名称" type="text" value="<?php echo $View['name_en']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="address" type="text" value="<?php echo $View['address']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">简介：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="desc"><?php echo $View['desc']?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">游客注意事项：</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" rows="2" name="attention"><?php echo $View['attention']?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">标签(可多选)</label>
+            <div class="col-sm-8">
+				<?php foreach($tagList as $key => $value):?>
+				<label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $key;?>" name="tags[]" <?php if($value['checked'] == '1'){echo "checked";}?>/>
+                    <span class="lab label-sin"><?php echo $value['tag_name'];?></span>
+                </label>
+				<?php endforeach;?>
+                
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">景点照片：</label>
+            <div class="col-sm-3 photo-wrap">
+                <input type="file" id="photo" class="form-control" data-name="photo" />
+            </div>
+            <div class="col-sm-5">
+                <span class="input-tips">图片格式为jpg、png，0-9张，大小不超过2M</span>
+            </div>
+        </div>
+        <div class="pic-wall">
+			<?php foreach($View['photo'] as $img) :?>
+			<div>
+				<a href="<?php echo $imgDomain.$img;?>" target="_blank"><img src="<?php echo $imgDomain.$img;?>" style="width:160px;"><i class="icon-large icon-remove red"></i></a>
+					<input type="hidden" value="<?php echo $img;?>" name="photo[]">
+			</div>
+			<?php endforeach;?>
+	    </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">网址(对外)：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="website" type="text" value="<?php echo $View['website']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">附件：</label>
+            <div class="col-sm-3 file-wrap">
+                <input id="others-1" type="file" class="form-control" data-name="other_attachment[]" />
+            </div>
+        </div>
+	    <?php echo attachmentHtml($View['attachment'],$fileDomain);?>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">货币</label>
+            <div class="col-sm-3">
+                <select name="currency" id="" class="form-control">
+                    <option value="0">货币类型</option>
+					<?php foreach(config_item('currency') as $key => $value):?>
+					<option value="<?php echo $key;?>"><?php echo $value?></option>
+					<?php endforeach;?>
+                </select>
+            </div>
+        </div>
+	    <?php echo create_sub_price_form($priceData);?>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">年龄限制：</label>
+            <div class="col-sm-2">
+                <select class="form-control" name="min_age">
+					<?php echo age_options();?>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="max_age">
+                    <option value="0">最大岁数</option>
+					<?php echo age_options();?>
+                </select>
+            </div>
+        </div>
+	    <?php echo create_opentime_form($openTime);?>
+
+        <div class="form-group">
+            <label class="control-label col-sm-3">开放时间备注：</label>
+            <div class="col-sm-6">
+                <input type="text" name="ot_desc" class="form-control" value="<?php echo $View['open_time_remark']?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">购买方式(可多选)</label>
+            <div class="col-sm-9">
+            <?php foreach(config_item('purchases') as $key => $value):?>
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $key;?>" name="purchases[]" <?php foreach($View['purchase_way'] as $check){ if($check == $key){echo "checked";}} ?>>
+                    <span class="lbl">&nbsp;<?php echo $value;?></span>
+                </label>
+            <?php endforeach;?>
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('1',$View['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_website" class="form-control" value="<?php echo $View['booking_website']?>">
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('2',$View['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订邮箱</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_email" class="form-control" value="<?php echo $View['booking_email']?>">
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('3',$View['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_tel" class="form-control" value="<?php echo $View['booking_tel']?>">
+            </div>
+        </div>
+        <div class="form-group" style="<?php if(in_array('4',$View['purchase_way'])){echo 'display:block';}else{echo 'display:none';}?>">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">购买地址</label>
+            <div class="col-sm-5">
+                <input type="text" name="purchases_address" class="form-control" value="<?php echo $View['purchase_address']?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">推荐游玩时长：</label>
+            <div class="col-sm-3">
+                <input class="form-control input" name="recommended_duraion" type="text" value="<?php echo $View['recommend_time']?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">旅行设计师备注：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="remark"><?php echo $View['designer_remark']?></textarea>
+            </div>
+        </div>
+	<input type ="hidden" name="id" value="<?php echo $View['id']?>">
+        <div class="form-group">
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok bigger-110"></i>
+                    保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                    <i class="icon-undo bigger-110"></i>
+                    返回
+                    </button>
+                </div>
+            </div>
+        </div>
+</form>
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script>
+$(document).ready(function(){
+	
+	/*页面初始化开始*/
+	$("select[name='country']").val("<?php echo $View['country_id']?>");
+	
+	$("select[name='city']").val("<?php echo $View['city_id']?>");
+	
+	$("select[name='currency']").val("<?php echo $View['currency']?>");
+	
+	$("select[name='min_age']").val("<?php echo $View['min_age']?>");
+	
+	$("select[name='max_age']").val("<?php echo $View['max_age']?>");
+	
+	
+	/*页面初始化结束*/
+	
+	var picDomain = "<?php echo $imgDomain;?>";
+        var picUploadDomain = "<?php echo $imgUploadDomain;?>";
+	var fileDomain = "<?php echo $fileDomain;?>";
+	var fileUploadDomain ="<?php echo $fileUploadDomain;?>";
+	
+	window.ace.load_file( "../css/datepicker.css", "css" );
+	window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+		// 加载完成后的操作
+		$("input[name='birthdate']").datepicker();
+	}, function () {
+		console.log("file load failed!");
+	});
+	
+	//表单验证
+		$("#dataForm3").validate({
+		rules: {
+			country: {
+                            required: true,
+			    min: 1			  
+			},
+			city: {
+                            required: true,
+                            min: 1
+			},
+			name_en: {
+                            required: true,
+			},
+			email: {
+                            email: true
+			},
+			salary: {
+                            number: true
+			},
+			driving_age: {
+                            number: true
+			},
+                        currency: {
+                            required: true,
+                            min: 1
+                        }
+		},
+		messages: {
+			country: {
+                            required: '请选择国家',
+                            min: '请选择国家',
+			},
+			city: {
+                            required: '请选择城市',
+                            min: '请选择城市',
+			},
+			name_en: {
+                            required: '景点英文名字必填',
+			},
+			email: {
+                            email: '请输入正确的邮箱'
+			},
+			salary: {
+                            number: "必须为数字，小数"
+			},
+			driving_age: {
+                            number: "填数字啊"
+			},
+                        currency: {
+                            required: "货币必选",
+                            min: "货币必选"
+                        }
+		}
+	});
+	
+	//根据国家获取城市
+		$("select[name='country']").on("change",function(){
+		$.ajax({
+			type: 'POST',
+			url: '../city/getCityByCountryId',
+			data:{
+				country_id: $("select[name='country']").val()
+			},
+			success:function(data){
+				
+				$("select[name='city'] option").remove(".main");
+				var city_list = JSON.parse(data);
+				
+				for(var key in city_list)
+				{
+					$("select[name='city']").append("<option value='"+key+"' class='main'>"+city_list[key]['name']+"</option>");
+				}
+			}
+		});
+	});
+	
+	//图片附件上传
+	window.ace.opentime_init();
+        window.ace.opentime_validate_init();
+        window.ace.widget_list_init();
+        window.ace.purchase_way_init();
+        window.ace.one_group_clone_init();
+        window.ace.file_list_init(fileDomain, fileUploadDomain);
+        window.ace.pic_upload("photo", picDomain, picUploadDomain);
+        window.ace.other_files_upload("others-1", fileDomain, fileUploadDomain);
+	
+        //调用日期选择器和时间选择器
+        window.ace.load_file( "../css/datepicker.css", "css" );
+        window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+            // 加载完成后的操作
+            $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+                maxViewMode: 'months',
+                format: 'mm-dd'
+            });
+        }, function () {
+            console.log("file load failed!");
+        });
+
+        window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+        window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+        window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+            //加载完成后的操作
+            $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+                minuteStep: 1,
+                showSeconds: false,
+                showMeridian: false,
+                appendWidgetTo: ':first',
+            });
+        }, function () {
+            console.log("file load failed!");
+        });		
+});
+</script>

@@ -1,0 +1,355 @@
+<h3 class="header smaller lighter blue">编辑餐厅</h3>
+<form method="post" action="<?php echo get_url('restaurant/save');?>" role="form" class="form-horizontal" id="dataForm3">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">国家：</label>
+        <div class="col-sm-3 readonly">
+            <select name="country_id" class="form-control">
+                <option value="0">--请选择--</option>
+                <?php foreach($cityList as $country):?>
+                <option value="<?php echo $country['country_id'];?>" <?php if($country['country_id'] == $data['country_id']):?>selected="selected"<?php endif;?>><?php echo $country['country_name'];?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">城市：</label>
+        <div class="col-sm-3">
+            <select name="city_id" class="form-control">
+                <option class="main" value="0">--请选择--</option>
+                <?php if(!empty($cityList[$data['country_id']]['city_list'])):?>
+                    <?php foreach($cityList[$data['country_id']]['city_list'] as $city):?>
+                    <option value="<?php echo $city['id'];?>" <?php if($city['id'] == $data['city_id']):?>selected="selected"<?php endif;?>><?php echo $city['name'];?></option>
+                    <?php endforeach;?>
+                <?php endif;?>  
+            </select>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">名称：</label>
+        <div class="col-sm-3">
+            <input type="text" placeholder="中文名称" name="name" class="form-control" value="<?php echo $data['name'];?>" required>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" placeholder="英文名称" name="name_en" class="form-control" value="<?php echo $data['name_en'];?>" required>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">特色标签(可多选)</label>
+        <div class="col-sm-8">
+            <?php echo create_tag_form($data['tag_list']);?>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">简介：</label>
+        <div class="col-sm-6">
+            <textarea rows="2" class="form-control" name="intro"><?php echo $data['desc'];?></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">游客注意事项：</label>
+        <div class="col-sm-6">
+            <textarea class="form-control" name="attention" type="text"><?php echo $data['attention_msg'];?></textarea>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">电话：</label>
+        <div class="col-sm-3">
+            <input class="form-control" name="tel" type="text" value="<?php echo $data['tel'];?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">传真：</label>
+        <div class="col-sm-3">
+            <input class="form-control" name="fax" type="text" value="<?php echo $data['fax'];?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">网址(对外)：</label>
+        <div class="col-sm-6">
+            <input class="form-control" name="website" type="text" value="<?php echo $data['website'];?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">地址：</label>
+        <div class="col-sm-6">
+            <input class="form-control" name="address" type="text" value="<?php echo $data['address'];?>" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">货币：</label>
+        <div class="col-sm-3">
+            <select name="currency" class="form-control">
+                <option value="0">--货币类型--</option>
+                <?php foreach(config_item('currency') as $key => $value):?>
+                    <option value="<?php echo $key;?>" <?php if($key == $data['currency']):?>selected="selected"<?php endif;?>><?php echo $value?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>
+    <?php if(empty($data['price_list'])):?>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">餐标：</label>
+        <div class="col-sm-2">
+            <input type="hidden" name="menu_id[]" value=""/>
+            <input type="hidden" name="menu_type[]" value="1"/>
+            <select class="form-control" name="menu_ext_1[]">
+                <option value="1">早餐</option>
+                <option value="2">午餐</option>
+                <option value="3">晚餐</option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <input type="number" name="menu_price[]" class="form-control" placeholder="价格">
+        </div>
+        <div class="col-sm-3">
+            <input type="text" name="menu_intro[]" class="form-control" placeholder="描述">
+        </div>
+        <div class="col-sm-1 btn-wrap one-group-btn-wrap">
+            <i class="icon-large icon-plus-sign green" data-action="one-group-clone"></i>
+        </div>
+    </div>
+    <?php else:?>
+        <?php 
+            $i = 0;
+            foreach($data['price_list'] as $price):
+                $lable = empty($i)?'餐标：':'';
+                $btn = '<i class="icon-large icon-plus-sign green" data-action="one-group-clone"></i>';
+                if($i > 0){
+                    $btn = '<i data-action="one-group-close" class="icon-large control-label icon-remove-sign grey"></i>';
+                }
+        ?>
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><?php echo $lable;?></label>
+            <div class="col-sm-2">
+                <input type="hidden" name="menu_id[]" value="<?php echo $price['id'];?>"/>
+                <input type="hidden" name="menu_type[]" value="1"/>
+                <select class="form-control" name="menu_ext_1[]">
+                    <option value="1" <?php if($price['ext_1'] == 1):?>selected="selected"<?php endif;?>>早餐</option>
+                    <option value="2" <?php if($price['ext_1'] == 2):?>selected="selected"<?php endif;?>>午餐</option>
+                    <option value="3" <?php if($price['ext_1'] == 3):?>selected="selected"<?php endif;?>>晚餐</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" name="menu_price[]" class="form-control" placeholder="价格" value="<?php echo $price['price'];?>">
+            </div>
+            <div class="col-sm-3">
+                <input type="text" name="menu_intro[]" class="form-control" placeholder="描述" value="<?php echo $price['remark'];?>">
+            </div>
+            <div class="col-sm-1 btn-wrap one-group-btn-wrap"><?php echo $btn;?></div>
+        </div>
+        <?php $i++; endforeach;?>
+    <?php endif;?>
+    
+    <?php echo create_opentime_form($data['opentime_list']);?>
+    <div class="form-group">
+        <label class="control-label col-sm-3">开放时间备注：</label>
+        <div class="col-sm-6">
+            <input type="text" name="open_remark" class="form-control" value="<?php echo $data['opentime_remark'];?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">购买方式(可多选)</label>
+        <div class="col-sm-9">
+        <?php foreach(config_item('purchases') as $purchases_key => $child):?>
+            <label class="checkbox-inline">
+                <input type="checkbox" class="ace" value="<?php echo $purchases_key;?>" name="purchases[]" <?php if(in_array($purchases_key,$data['purchase_way'])):?>checked="checked"<?php endif;?> >
+                <span class="lbl">&nbsp;<?php echo $child;?></span>
+            </label>
+        <?php endforeach;?>
+        </div>
+    </div>
+    <div class="form-group" <?php if(!in_array(1,$data['purchase_way'])):?>style="display:none;"<?php endif;?> >
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+        <div class="col-sm-5">
+            <input type="text" name="reserve_website" class="form-control" value="<?php echo $data['booking_website'];?>">
+        </div>
+    </div>
+    <div class="form-group" <?php if(!in_array(2,$data['purchase_way'])):?>style="display:none;"<?php endif;?> >
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">预订邮箱</label>
+        <div class="col-sm-5">
+            <input type="text" name="reserve_email" class="form-control" value="<?php echo $data['booking_email'];?>">
+        </div>
+    </div>
+    <div class="form-group" <?php if(!in_array(3,$data['purchase_way'])):?>style="display:none;"<?php endif;?> >
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+        <div class="col-sm-5">
+            <input type="text" name="reserve_tel" class="form-control" value="<?php echo $data['booking_tel'];?>">
+        </div>
+    </div>
+    <div class="form-group" <?php if(!in_array(4,$data['purchase_way'])):?>style="display:none;"<?php endif;?> >
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">购买地址</label>
+        <div class="col-sm-5">
+            <input type="text" name="purchases_address" class="form-control" value="<?php echo $data['purchase_address'];?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">允许显示详情：</label>
+        <div class="col-sm-3">
+            <select name="show_detail" class="form-control">
+                <option value="1">允许</option>
+                <option value="0" <?php if($data['show_detail'] == 0):?>selected="selected"<?php endif;?>>不允许</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">照片：</label>
+        <div class="col-sm-3 photo-wrap">
+            <input type="file" id="photo" class="form-control" data-name="photo" />
+        </div>
+        <div class="col-sm-5">
+            <span class="input-tips">图片格式为jpg、png，0-9张，大小不超过2M</span>
+        </div>
+    </div>
+    <div class="pic-wall">
+        <?php foreach($data['images'] as $imgUrl):?>
+            <div>
+                <a href="<?php echo $imgDomain.$imgUrl;?>" target="_blank">
+                    <img src="<?php echo $imgDomain.$imgUrl;?>">
+                    <i class="icon-large icon-remove red"></i>
+                </a>
+                <input type="hidden" value="<?php echo $imgUrl;?>" name="photo[]">
+            </div>
+        <?php endforeach;?>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">附件：</label>
+        <div class="col-sm-3 file-wrap">
+            <input id="others-1" type="file" class="form-control" data-name="other_attachment[]" />
+        </div>
+    </div>
+    <?php echo attachmentHtml($data['files'],$fileDomain);?>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">旅行设计师备注：</label>
+        <div class="col-sm-6">
+            <textarea rows="2" class="form-control" name="remark"><?php echo $data['inside_remark'];?></textarea>
+        </div>
+    </div>
+    <input type="hidden" name='id' value="<?php echo $data['id'];?>"/>
+    <div class="form-group">
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-primary" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+                </button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                <i class="icon-undo bigger-110"></i>
+                返回
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script>
+$(function () {
+    
+    var picDomain = "<?php echo $imgDomain;?>";
+    var picUploadDomain = "<?php echo $imgUploadDomain;?>";
+    var fileDomain = "<?php echo $fileDomain;?>";
+    var fileUploadDomain ="<?php echo $fileUploadDomain;?>";
+    
+    var cityList = '<?php echo json_encode($cityList);?>';
+    
+    //动态显示城市下拉框的内容
+    $(document).on("change", "[name='country_id']", function () {
+        var cityObj = JSON.parse(cityList);
+        var val = $(this).find(":selected").val();
+        var activeCityList;
+        for(var i in cityObj) {
+            if (cityObj[i].country_id == val) {
+                activeCityList = cityObj[i].city_list;
+            }
+        }
+        var $city = $("[name='city_id']");
+        $city.empty();
+        for(var k in activeCityList) {
+            $city.append('<option value="' + activeCityList[k].id + '">' + activeCityList[k].name + '</option');
+        }
+    })
+
+    window.ace.is_repeat('<?php echo get_url('/restaurant/checkexist');?>', ['id', 'city_id'], ['name', 'name_en']);
+    window.ace.opentime_init();
+    window.ace.opentime_validate_init();
+    window.ace.purchase_way_init();
+    window.ace.ranking_init();
+    window.ace.one_group_clone_init();
+    window.ace.pic_upload("photo", picDomain, picUploadDomain);
+    
+    window.ace.file_list_init(fileDomain, fileUploadDomain);
+    window.ace.other_files_upload("others-1", fileDomain, fileUploadDomain);
+
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+        $("#checkin_time_begin, #checkin_time_end, #checkout_time_begin, #checkout_time_end").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        })
+    }, function () {
+        console.log("file load failed!");
+    });
+    
+    $("#dataForm3").validate({
+        rules: {
+            country_id: {
+                required: true,
+                min: 1			  
+            },
+            city_id: {
+                required: true,
+                min: 1			  
+            },
+            currency: {
+                required: true,
+                min: 1 
+            }
+        },
+        messages: {
+            country_id: {
+                required: '请选择国家',
+                min: '请选择国家',
+            },
+            city_id: {
+                required: '请选择城市',
+                min: '请选择城市',
+            },
+            currency: {
+                required: '请选择货币',
+                min: '请选择货币',
+            }
+        },
+        submitHandler: function(form){
+            if (window.ace.repeat_validate('<?php echo get_url('/restaurant/checkexist');?>', ['id', 'city_id'], ['name', 'name_en'])) {
+                form.submit();
+            } else {
+                $('html, body').animate({scrollTop: 45}, 'fast');
+                console.log("12");
+                return false;
+            }
+        }
+    });
+    
+})
+</script>

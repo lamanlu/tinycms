@@ -1,0 +1,44 @@
+<h3 class="header smaller lighter blue">汇率管理</h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url("/exchangerate/save");?>" method="post">
+
+    <?php foreach($rateArr as $rate):?>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> <?php echo $rate['desc'];?> </label>
+        <div class="col-sm-3">
+            <input type="text" class="col-xs-12" name="rate[<?php echo $rate['id'];?>]" value="<?php echo $rate['rate'];?>" required>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    <?php endforeach;?>
+
+
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-info" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn" type="button" onclick="javascript:location.href='<?php echo get_url();?>'">
+                <i class="icon-undo bigger-110"></i>
+                返回
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function() {    			
+    	$("#dataForm").validate({
+            rules: {
+                <?php foreach($rateArr as $rate):?>
+                "rate[<?php echo $rate['id'];?>]": {
+                    required: true,
+                    number: true,			  
+                },
+                <?php endforeach;?>
+            }
+        });
+    });
+</script>

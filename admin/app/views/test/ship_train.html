@@ -1,0 +1,558 @@
+    <h3 class="header smaller lighter blue">酒店/公寓/别墅表单</h3>
+    <form id="dataForm3" class="form-horizontal" role="form" action="" method="post">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">国家：</label>
+            <div class="col-sm-3 readonly">
+                <select class="form-control" name="country_id">
+                    <option value="0">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">城市：</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="city_id">
+                    <option value="0" class="main">--请选择--</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">类别</label>
+            <div class="col-sm-3">
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="1" name="main-type" checked>
+                    <span class="lbl">&nbsp;游轮</span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="2" name="main-type">
+                    <span class="lbl">&nbsp;火车</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">名称：</label>
+            <div class="col-sm-3">
+                <input class="form-control" name="name_ch" placeholder="中文名称" type="text" />
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control" name="name_en" placeholder="英文名称" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">简介：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="intro"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">游客注意事项：</label>
+            <div class="col-sm-6">
+                <input class="form-control" name="attention" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">照片：</label>
+            <div class="col-sm-3 photo-wrap">
+                <input type="file" id="photo" class="form-control" data-name="photo" />
+            </div>
+            <div class="col-sm-5">
+                <span class="input-tips">图片格式为jpg、png，1-3张，大小不超过2M</span>
+            </div>
+        </div>
+        <div class="pic-wall"></div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">网址(对外)：</label>
+            <div class="col-sm-6">
+                <input class="form-control" name="website" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">其他附件：</label>
+            <div class="col-sm-3">
+                <input type="text" name="file_type[]" class="form-control" placeholder="附件类型">
+            </div>
+            <div class="col-sm-3 file-wrap">
+                <input id="others-1" type="file" class="form-control" data-name="other_attachment[]" />
+            </div>
+            <div class="col-sm-1 file-btn-wrap btn-wrap">
+                <i class="icon-large icon-plus-sign green control-label" data-action="group-clone"></i>
+            </div>
+        </div>
+        <div class="file-wall"></div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">城市：</label>
+            <div class="col-sm-6">
+                <div class="inline">
+                    <input type="text" name="" class="input-large" placeholder="出发城市">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input type="text" name="" class="input-large" placeholder="抵达城市">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">港口：</label>
+            <div class="col-sm-6">
+                <div class="inline">
+                    <input type="text" name="" class="input-large" placeholder="出发港口">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input type="text" name="" class="input-large" placeholder="抵达港口">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">站点：</label>
+            <div class="col-sm-6">
+                <div class="inline">
+                    <input type="text" name="" class="input-large" placeholder="出发站点">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input type="text" name="" class="input-large" placeholder="抵达站点">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">班次：</label>
+            <div class="col-sm-4">
+                <div class="inline">
+                    <input type="text" name="" class="input-medium" placeholder="出发站点">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input type="text" name="" class="input-medium" placeholder="抵达站点">
+                </div>
+            </div>
+            <div class="col-sm-1 one-group-btn-wrap">
+                <i class="control-label icon-large icon-plus-sign green" data-action="group-clone"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">电话：</label>
+            <div class="col-sm-3">
+                <input class="form-control" name="tel" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">传真：</label>
+            <div class="col-sm-3">
+                <input class="form-control" name="fax" type="text" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">货币：</label>
+            <div class="col-sm-3">
+                <select name="currency" id="" class="form-control">
+                    <option value="0">--货币类型--</option>
+                </select>
+            </div>
+        </div>
+        <div class="hotel-container">
+            <div class="form-group">
+                <label for="" class="control-label col-sm-3">房间类型：</label>
+                <div class="col-sm-2">
+                    <input type="text" name="" class="form-control" placeholder="房间类型">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" name="" class="form-control" placeholder="面积">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" placeholder="价格">
+                </div>
+                <div class="col-sm-1 btn-wrap group-btn-wrap">
+                    <i class="control-label icon-large icon-plus-sign green" data-action="group-clone"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-2 radio-wrap">
+                    <label class="lbl">早餐：</label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="1" name="breakfast[0]" checked>
+                        <span class="lbl">&nbsp;有</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="2" name="breakfast[0]">
+                        <span class="lbl">&nbsp;无</span>
+                    </label>
+                </div>
+                <div class="col-sm-3 btn-wrap">
+                    <input type="file" id="hotel_room_img-0" class="form-control" data-name="hotel_room_img[0]">
+                </div>
+            </div>
+            <div class="pic-wall"></div>
+        </div>
+        <div class="department-container">
+            <div class="form-group">
+                <label class="control-label col-sm-3">总面积：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">可入住人数：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">价格：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">房间类型：</label>
+                <div class="col-sm-2">
+                    <input type="text" name="" class="form-control" placeholder="房间类型">
+                </div>
+                <div class="col-sm-1">
+                    <input type="text" class="form-control" placeholder="数量">
+                </div>
+                <div class="col-sm-3 file-btn-wrap">
+                    <input type="file" id="depart_room_img-0" class="form-control" data-name="depart_room_img[0]">
+                </div>
+                <div class="col-sm-1 one-group-btn-wrap btn-wrap">
+                    <i class="icon-large icon-plus-sign green control-label" data-action="group-clone"></i>
+                </div>
+            </div>
+            <div class="pic-wall"></div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">有无早餐：</label>
+                <div class="col-sm-2">
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="1" name="depart_breakfast" checked>
+                        <span class="lbl">&nbsp;有</span>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" class="ace" value="2" name="depart_breakfast">
+                        <span class="lbl">&nbsp;无</span>
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" name="" class="form-control" placeholder="早餐价格">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">毛巾/床单价格：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">清洁费：</label>
+                <div class="col-sm-3">
+                    <input type="text" name="" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="control-label col-sm-3">加床：</label>
+            <div class="col-sm-2">
+                <input type="text" name="" class="form-control" placeholder="加床类型">
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="" class="form-control" placeholder="数量">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">订金：</label>
+            <div class="col-sm-3">
+                <input type="text" name="" class="form-control" placeholder="价格">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">入住时间：</label>
+            <div class="col-sm-3">
+                <div class="inline">
+                    <input id="checkin_time_begin" type="text" name="" class="input-small" placeholder="起始入住时间">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input id="checkin_time_end" type="text" name="" class="input-small" placeholder="结束入住时间">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">退房时间：</label>
+            <div class="col-sm-3">
+                <div class="inline">
+                    <input id="checkout_time_begin" type="text" name="" class="input-small" placeholder="起始退房时间">
+                </div>
+                <span>至</span>
+                <div class="inline">
+                    <input id="checkout_time_end" type="text" name="" class="input-small" placeholder="起始退房时间">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">WiFi：</label>
+            <div class="col-sm-3">
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="1" name="has_wifi" checked>
+                    <span class="lbl">&nbsp;有</span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="0" name="has_wifi">
+                    <span class="lbl">&nbsp;无</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">停车场：</label>
+            <div class="col-sm-2">
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="1" name="has_parking" checked>
+                    <span class="lbl">&nbsp;有</span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="ace" value="0" name="has_parking">
+                    <span class="lbl">&nbsp;无</span>
+                </label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" name="" class="form-control" placeholder="停车费用">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">开放日期：</label>
+            <div class="col-sm-1">
+                <input type="hidden" name="ot_id[]" />
+                <select name="ot_season[]" class="input-small">
+                    <option value="0">季节</option>
+                    <option value="2">夏季</option>
+                    <option value="4">冬季</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input class="input-mini" name="ot_start_date[]" placeholder="开始日期" type="text" />
+                <span class="control-label">至</span>
+                <input class="input-mini" name="ot_end_date[]" placeholder="结束日期" type="text" />
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_start_week[]" class="input-small">
+                    <option value="0">开始星期</option>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_end_week[]" class="input-small">
+                    <option value="0">结束星期</option>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_start_time[]" class="input-large" placeholder="开始时间">
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_end_time[]" class="input-large" placeholder="结束时间">
+            </div>
+            <div class="col-sm-1 opentime-btn-wrap btn-wrap">
+                <i class="icon-plus-sign icon-large green control-label" data-action="line-clone"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">开放时间备注：</label>
+            <div class="col-sm-6">
+                <input type="text" name="open_remark" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">购买方式(可多选)</label>
+            <div class="col-sm-9">
+            <?php foreach(config_item('purchases') as $purchases_key => $child):?>
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $purchases_key;?>" name="purchases[]">
+                    <span class="lbl">&nbsp;<?php echo $child;?></span>
+                </label>
+            <?php endforeach;?>
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_website" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订邮箱</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_email" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_tel" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">购买地址</label>
+            <div class="col-sm-5">
+                <input type="text" name="purchases_address" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">旅行设计师备注：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="remark"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok bigger-110"></i>
+                    保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                    <i class="icon-undo bigger-110"></i>
+                    返回
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script>
+$(function () {
+    
+    var picDomain = "http://img.mustardseed.org";   //这里需要修改
+    var picUploadDomain = 'http://upload.mustardseed.org/image';    //这里需要修改
+    var fileDomain = "http://file.mustardseed.org";   //这里需要修改
+    var fileUploadDomain = "http://upload.mustardseed.org/file";    //这里需要修改
+
+    $(document).on("click", "[name='main-type']", function () {
+        var value = $(this).val();
+        if(value == "1") {
+            $(".hotel-container").show();
+            $(".department-container").hide();
+        } else {
+            $(".hotel-container").hide();
+            $(".department-container").show();
+        }
+    })
+
+    $(document).on("click", ".group-btn-wrap i", function () {
+        var $this = $(this);
+        var p = $this.data("action");
+        if (p == "group-clone") {
+            var input_id = $this.parents(".form-group").next().find(".uploadify").attr("id");
+            var id = input_id.split("-")[0];
+            var count = $("[id^='" + id + "']").length / 3 + 1;
+            console.log(count);
+            var new_input_id = id + "-" + count;
+            console.log(new_input_id);
+            var $fragment = $(document.createDocumentFragment());
+            var $clone_node = $this.parents(".form-group").clone(false);
+            //清空输入框中的内容
+            $clone_node.find("input").val("")
+                .end().find("select").val("0")
+                .end().find("label.control-label").text("")
+                .end().find(".group-btn-wrap i").removeClass("icon-plus-sign green").addClass("icon-remove-sign grey").data("action", "group-close");
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().clone(true);
+            $clone_node.find("input[type='text']").val("")
+                .end().find("select").val("0")
+                .end().find("label.control-label").text("")
+                //修改上传输入,重新调用上传的方法
+                .end().find(".btn-wrap").empty().append("<input type='file' id='" + new_input_id + "' data-name='" + id + "[]'>");
+            $clone_node.find("input[type='radio']").attr("name", $clone_node.find("input[type='radio']").attr("name") + Math.random());
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().next().clone(true);
+            $clone_node.empty();
+            $fragment.append($clone_node);
+            var $attach = $this.parents(".form-group").next().next();
+            $attach.after($fragment);
+            adjustInner();
+            //绑定上传文件的方法
+            window.ace.pic_upload(new_input_id, picDomain, picUploadDomain)
+        } else {
+            if (p == "group-close") {
+                $this.parents(".form-group").next().remove().end().next().remove().end().remove();
+                adjustInner();
+            }
+        }
+
+        function adjustInner () {
+            $(".hotel-container").find(".radio-wrap").each(function (i, wrapVal) {
+                var $radio = $(wrapVal).find("input[type='radio']");
+                var name = $radio.attr("name").split("[");
+                $radio.attr("name", name[0] + "[" + i + "]");
+            })
+        }
+    })
+
+    $(document).on("click", ".one-group-btn-wrap i", function() {
+        var $this = $(this);
+        var p = $this.data("action");
+        if (p == "group-clone") {
+            var input_id = $this.parents(".btn-wrap").prev().find(".uploadify").attr("id");
+            var id = input_id.split("-")[0];
+            var count = $("[id^='" + id + "']").length / 3 + 1;
+            console.log(count);
+            var new_input_id = id + "-" + count;
+            console.log(new_input_id);
+            var $fragment = $(document.createDocumentFragment());
+            var $clone_node = $this.parents(".form-group").clone(false);
+            //清空输入框中的内容
+            $clone_node.find("input").val("")
+                .end().find("select").val("0")
+                .end().find("label.control-label").text("")
+                .end().find(".one-group-btn-wrap i").removeClass("icon-plus-sign green").addClass("icon-remove-sign grey").data("action", "group-close")
+            //修改上传输入,重新调用上传的方法
+            .end().find(".file-btn-wrap").empty().append("<input type='file' id='" + new_input_id + "' data-name='other_attachment[]'>");
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().clone(true);
+            $clone_node.empty()
+            $fragment.append($clone_node);
+            var $attach = $this.parents(".form-group").next();
+            $attach.after($fragment);
+            //绑定上传文件的方法
+            window.ace.pic_upload(new_input_id, picDomain, picUploadDomain)
+        } else {
+            if (p == "group-close") {
+                $this.parents(".form-group").next().remove().end().remove();
+            }
+        }
+    })
+
+    window.ace.opentime_init();
+    window.ace.purchase_way_init();
+    window.ace.pic_upload("photo", picDomain, picUploadDomain);
+    window.ace.pic_upload("hotel_room_img-0", picDomain, picUploadDomain);
+    window.ace.pic_upload("depart_room_img-0", picDomain, picUploadDomain);
+
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+        $("#checkin_time_begin, #checkin_time_end, #checkout_time_begin, #checkout_time_end").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        })
+    }, function () {
+        console.log("file load failed!");
+    });
+})
+</script>

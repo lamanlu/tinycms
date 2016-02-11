@@ -1,0 +1,417 @@
+<h3 class="header smaller lighter blue">添加导游</h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('/guide/save');?>" method="post">
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 国家：</label>
+
+		<div class="col-sm-3">
+			<select class="form-control" name="country">
+				<option value="0">--请选择--</option>
+				<?php foreach($countryList as $country):?>
+					<option value="<?php echo $country['id'];?>"><?php echo $country['name'];?></option>
+				<?php endforeach;?>
+			</select>
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 城市：</label>
+
+		<div class="col-sm-3">
+			<select class="form-control" name="city">
+				<option value="0">--请选择--</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+        
+        	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 地接社：</label>
+
+		<div class="col-sm-3">
+			<select class="form-control" name="local_travel_agency">
+                            <option value="0">--请选择--</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 导游：</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="导游" name="name">
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 出生日期：</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="出生日期" name="birthdate">
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 籍贯：</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="籍贯" name="native_place">
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 现住地：</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="现住地" name="residence">
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+	
+	<div class="form-group">
+		
+		<label class="col-sm-3 control-label no-padding-right"> 语言：</label>
+		
+		<div class="col-sm-9">
+			<?php foreach(config_item('mx_language') as $index => $language):?>
+			<label class="checkbox-inline">
+				<input type="checkbox" value="<?php echo $index;?>" name="language[]">
+				<?php echo $language;?>
+			</label>
+			<?php endforeach;?>
+		</div>
+		
+	</div>
+	
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 联系电话：</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="联系电话" name="tel">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> email：</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="email" name="email">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 驾龄：</label>
+
+		<div class="col-sm-3">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="驾龄" name="driving_age">
+			<label class="control-label">&emsp;年</label>
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 服务类型：</label>
+		<label class="col-sm-1 control-label no-padding-right"> 纯导游&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+		<div class="col-sm-1">
+			<input type="text" class="form-control input" placeholder="工资" name="salary">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+	<div class="guide_car_type">
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right"></label>
+
+			<label class="col-sm-1 control-label no-padding-right no-padding-left"> 司机兼导游<i class="icon-plus-sign" style="color:green;font-size:16px;cursor:pointer;margin-left:2px"></i></label>
+
+		</div>
+	</div>
+		
+	<div class="space-4"></div>
+	
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 币种：</label>
+
+		<div class="col-sm-3">
+			<select class="form-control" name="currency">
+				<option value="0">--请选择--</option>
+				<?php foreach(config_item('currency') as $index => $currency):?>
+				<option value="<?php echo $index?>"><?php echo $currency;?></option>
+				<?php endforeach;?>
+			</select>
+		</div>
+	</div>
+
+	<div class="space-4"></div>		
+	
+	<div class="form-group">
+		<label class="col-sm-3 control-label no-padding-right"> 结算方式：</label>
+
+		<div class="col-sm-9">
+			<label class="checkbox-inline">
+				<input type="checkbox" class="ace" value="1" name="payment[]">
+				<span class="lbl">&nbsp;<?php echo config_item('settlement')[1]?></span>
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" class="ace" value="2" name="payment[]">
+				<span class="lbl">&nbsp;<?php echo config_item('settlement')[2]?></span>
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" class="ace" value="3" name="payment[]" id="huikuan">
+				<span class="lbl">&nbsp;<?php echo config_item('settlement')[3]?></span>
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" class="ace" value="4" name="payment[]">
+				<span class="lbl">&nbsp;<?php echo config_item('settlement')[4]?></span>
+			</label>
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="bank_account" style="display:none">
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right"> 银行账户：</label>
+
+			<div class="col-sm-9">
+				<input type="text" class="col-xs-10 col-sm-5" placeholder="收款人名称" name="payee_name">
+			</div>
+		</div>
+
+		<div class="space-4"></div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+			<div class="col-sm-9">
+				<input type="text" class="col-xs-10 col-sm-5" placeholder="收款人地址" name="payee_address">
+			</div>
+		</div>
+
+		<div class="space-4"></div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+			<div class="col-sm-9">
+				<input type="text" class="col-xs-10 col-sm-5" placeholder="IBANK" name="ibank">
+			</div>
+		</div>
+
+		<div class="space-4"></div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+			<div class="col-sm-9">
+				<input type="text" class="col-xs-10 col-sm-5" placeholder="开户银行名称" name="bank_account_name">
+			</div>
+		</div>
+
+		<div class="space-4"></div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+			<div class="col-sm-9">
+				<input type="text" class="col-xs-10 col-sm-5" placeholder="开户银行地址" name="bank_account_address">
+			</div>
+		</div>
+
+		<div class="space-4"></div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+			<div class="col-sm-9">
+				<input type="text" class="col-xs-10 col-sm-5" placeholder="SWIFT/BIC" name="swift/bic">
+			</div>
+		</div>
+
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="form-group">
+		<label for="desc" class="col-sm-3 control-label no-padding-right"> 备忘：</label>
+
+		<div class="col-sm-6">
+			<textarea name="desc" id="desc" class="autosize-transition form-control"></textarea>
+		</div>
+	</div>
+
+	<div class="space-4"></div>
+
+	<div class="clearfix form-actions">
+		<div class="col-md-offset-3 col-md-9">
+			<button class="btn btn-info" type="submit">
+				<i class="icon-ok bigger-110"></i>
+				保存
+			</button>
+
+			&nbsp; &nbsp; &nbsp;
+			<button class="btn" type="button" onclick="javascript:location.href='<?php echo get_url('guide');?>'">
+				<i class="icon-undo bigger-110"></i>
+				返回
+			</button>
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+    var picDomain = "<?php echo $imgDomain;?>";
+    var picUploadDomain = "<?php echo $imgUploadDomain;?>";
+	
+	window.ace.load_file( "../css/datepicker.css", "css" );
+	window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+		// 加载完成后的操作
+		$("input[name='birthdate']").datepicker();
+	}, function () {
+		console.log("file load failed!");
+	});
+	
+	//动态添加司机兼导游类型
+	$(document).on("click", "i.icon-plus-sign", function(){
+		var pic_count = $("[id^='picAdd']").length/3;
+		var car_type_html = "<div class='guide_car_type'><div class='form-group'><label class='col-sm-4 control-label no-padding-right'> &nbsp; </label><div class='col-sm-1'><input type='text' class='form-control input' placeholder='座位类型' name='seat_type[]'></div><div class='col-sm-1'><input type='text' class='form-control input' placeholder='车型' name='car_type[]'></div><div class='col-sm-1'><input type='text' class='form-control input' placeholder='工资' name='car_salary[" + pic_count + "]'></div>	<i class='icon-remove-sign' style='color:grey;line-height:34px;font-size:16px;cursor:pointer;'></i></div><div class='form-group'><label class='col-sm-4 control-label no-padding-right'> </label><div class='col-sm-6'><input type='file' id='picAdd" + pic_count + "' data-name='photo["+pic_count+"]' name = 'photo' multiple='' class='form-control' accept='.jpg,.png,.jpeg,.tmp'></div></div><div class='pic-wall'></div></div>";
+		$(".guide_car_type:last").after(car_type_html);
+    	window.ace.pic_upload('picAdd' + pic_count, picDomain, picUploadDomain);
+
+    	$('input[name^="car_salary[' + pic_count + ']"]').each( function (i, val) {
+			$(this).rules('add', {
+				number: true,
+				messages: {
+					number: '输入数字啊!'
+				}
+			});
+    		console.log(i, val);
+		})
+	});
+				   
+	$(document).on("click", "i.icon-remove-sign", function(){
+		$(this).parent().parent().remove();
+	});
+
+	$("#dataForm").validate({
+		rules: {
+			country: {
+			  required: true,
+			  min: 1			  
+			},
+			city: {
+				required: true,
+				min: 1
+			},
+			name: {
+				required: true,
+			},
+			email: {
+				email: true
+			},
+			salary: {
+				number: true
+			},
+			driving_age: {
+				number: true
+			}
+		},
+		messages: {
+			country: {
+			  required: '请选择国家',
+			  min: '请选择国家',
+			},
+			city: {
+			  required: '请选择城市',
+			  min: '请选择城市',
+			},
+			name: {
+			  required: '导游名字必填',
+			},
+			email: {
+				email: '请输入正确的邮箱'
+			},
+			salary: {
+				number: "必须为数字，小数"
+			},
+			driving_age: {
+				number: "填数字啊"
+			}
+		}
+	});
+
+
+	$("#huikuan").on("change",function(){
+		$(".bank_account").toggle();
+	})
+
+	$("select[name='country']").on("change",function(){
+		$.ajax({
+			type: 'POST',
+			url: '../city/getCityByCountryId',
+			data:{
+				country_id: $("select[name='country']").val()
+			},
+			success:function(data){
+				
+				$("select[name='city'] option").remove(".main");
+				var city_list = JSON.parse(data);
+				
+				for(var key in city_list)
+				{
+					$("select[name='city']").append("<option value='"+key+"' class='main'>"+city_list[key]['name']+"</option>");
+				}
+			}
+		});
+	});
+        
+        $("select[name='city']").on("change",function(){
+            $.ajax({
+                type: 'POST',
+                url: '/localtravelagency/getLTAByCityId',
+                data:{
+                    city_id: $("select[name='city']").val()
+                },
+                success: function(data){
+                    $("select[name='local_travel_agency'] option").remove(".main");
+		    var lta_list = JSON.parse(data);
+                    for(var key in lta_list){
+                        $("select[name='local_travel_agency']").append("<option value='"+key+"' class='main'>"+lta_list[key]['name']+"</option>");
+                    }
+                }
+            });
+        });
+
+	$(function () {
+        // var picDomain = "</?php echo $imgDomain;?>";
+        $("[id^='picAdd']").each( function (i, val) {
+        	var id = $(val).attr("id");
+        	window.ace.pic_upload(id, picDomain, picUploadDomain);
+        })
+    });
+
+});
+
+</script>
+

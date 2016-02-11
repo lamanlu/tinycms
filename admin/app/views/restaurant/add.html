@@ -1,0 +1,305 @@
+<h3 class="header smaller lighter blue">添加餐厅</h3>
+<form method="post" action="<?php echo get_url('restaurant/save');?>" role="form" class="form-horizontal" id="dataForm3">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">国家：</label>
+        <div class="col-sm-3 readonly">
+            <select name="country_id" class="form-control">
+                <option value="0">--请选择--</option>
+                <?php foreach($cityList as $country):?>
+                <option value="<?php echo $country['country_id'];?>"><?php echo $country['country_name'];?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">城市：</label>
+        <div class="col-sm-3">
+            <select name="city_id" class="form-control">
+                <option class="main" value="0">--请选择--</option>
+            </select>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">名称：</label>
+        <div class="col-sm-3">
+            <input type="text" placeholder="中文名称" name="name" class="form-control" required>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" placeholder="英文名称" name="name_en" class="form-control" required>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">特色标签(可多选)</label>
+        <div class="col-sm-8">
+            <?php echo create_tag_form($tagList);?>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">简介：</label>
+        <div class="col-sm-6">
+            <textarea rows="2" class="form-control" name="intro"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">游客注意事项：</label>
+        <div class="col-sm-6">
+            <textarea class="form-control" name="attention" type="text"></textarea>
+        </div>
+    </div>    
+    <div class="form-group">
+        <label class="col-sm-3 control-label">电话：</label>
+        <div class="col-sm-3">
+            <input class="form-control" name="tel" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">传真：</label>
+        <div class="col-sm-3">
+            <input class="form-control" name="fax" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">网址(对外)：</label>
+        <div class="col-sm-6">
+            <input class="form-control" name="website" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">地址：</label>
+        <div class="col-sm-6">
+            <input class="form-control" name="address" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">货币：</label>
+        <div class="col-sm-3">
+            <select name="currency" class="form-control">
+                <option value="0">--货币类型--</option>
+                <?php foreach(config_item('currency') as $key => $value):?>
+                    <option value="<?php echo $key;?>"><?php echo $value?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">餐标：</label>
+        <div class="col-sm-2">
+            <input type="hidden" name="menu_id[]" value=""/>
+            <input type="hidden" name="menu_type[]" value="1"/>
+            <select class="form-control" name="menu_ext_1[]">
+                <option value="1">早餐</option>
+                <option value="2">午餐</option>
+                <option value="3">晚餐</option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <input type="number" name="menu_price[]" class="form-control" placeholder="价格">
+        </div>
+        <div class="col-sm-3">
+            <input type="text" name="menu_intro[]" class="form-control" placeholder="描述">
+        </div>
+        <div class="col-sm-1 btn-wrap one-group-btn-wrap">
+            <i class="icon-large icon-plus-sign green" data-action="one-group-clone"></i>
+        </div>
+    </div>
+    <?php echo create_opentime_form();?>
+    <div class="form-group">
+        <label class="control-label col-sm-3">开放时间备注：</label>
+        <div class="col-sm-6">
+            <input type="text" name="open_remark" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">购买方式(可多选)</label>
+        <div class="col-sm-9">
+        <?php foreach(config_item('purchases') as $purchases_key => $child):?>
+            <label class="checkbox-inline">
+                <input type="checkbox" class="ace" value="<?php echo $purchases_key;?>" name="purchases[]">
+                <span class="lbl">&nbsp;<?php echo $child;?></span>
+            </label>
+        <?php endforeach;?>
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+        <div class="col-sm-5">
+            <input type="text" name="reserve_website" class="form-control">
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">预订邮箱</label>
+        <div class="col-sm-5">
+            <input type="text" name="reserve_email" class="form-control">
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+        <div class="col-sm-5">
+            <input type="text" name="reserve_tel" class="form-control">
+        </div>
+    </div>
+    <div class="form-group" style="display:none;">
+        <label for="" class="control-label col-sm-offset-3 col-sm-1">购买地址</label>
+        <div class="col-sm-5">
+            <input type="text" name="purchases_address" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">允许显示详情：</label>
+        <div class="col-sm-3">
+            <select name="show_detail" class="form-control">
+                <option value="1">允许</option>
+                <option value="0">不允许</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">照片：</label>
+        <div class="col-sm-3 photo-wrap">
+            <input type="file" id="photo" class="form-control" data-name="photo" />
+        </div>
+        <div class="col-sm-5">
+            <span class="input-tips">图片格式为jpg、png，0-9张，大小不超过2M</span>
+        </div>
+    </div>
+    <div class="pic-wall"></div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">附件：</label>
+        <div class="col-sm-3 file-wrap">
+            <input id="others-1" type="file" class="form-control" data-name="other_attachment[]" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">旅行设计师备注：</label>
+        <div class="col-sm-6">
+            <textarea rows="2" class="form-control" name="remark"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-primary" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+                </button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                <i class="icon-undo bigger-110"></i>
+                返回
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script>
+$(function () {
+    
+    var picDomain = "<?php echo $imgDomain;?>";
+    var picUploadDomain = "<?php echo $imgUploadDomain;?>";
+    var fileDomain = "<?php echo $fileDomain;?>";
+    var fileUploadDomain ="<?php echo $fileUploadDomain;?>";
+    
+    var cityList = '<?php echo json_encode($cityList);?>';
+
+    $("#dataForm3").validate({
+        rules: {
+            country_id: {
+                required: true,
+                min: 1            
+            },
+            city_id: {
+                required: true,
+                min: 1            
+            },
+            currency: {
+                required: true,
+                min: 1 
+            }
+        },
+        messages: {
+            country_id: {
+                required: '请选择国家',
+                min: '请选择国家',
+            },
+            city_id: {
+                required: '请选择城市',
+                min: '请选择城市',
+            },
+            currency: {
+                required: '请选择货币',
+                min: '请选择货币',
+            }
+        },
+        submitHandler: function(form){
+            if (window.ace.repeat_validate('<?php echo get_url('/restaurant/checkexist');?>', ['id', 'city_id'], ['name', 'name_en'])) {
+                form.submit();
+            } else {
+                $('html, body').animate({scrollTop: 45}, 'fast');
+                console.log("12");
+                return false;
+            }
+        }
+    });
+    
+    //动态显示城市下拉框的内容
+    $(document).on("change", "[name='country_id']", function () {
+        var cityObj = JSON.parse(cityList);
+        var val = $(this).find(":selected").val();
+        var activeCityList;
+        for(var i in cityObj) {
+            if (cityObj[i].country_id == val) {
+                activeCityList = cityObj[i].city_list;
+            }
+        }
+        var $city = $("[name='city_id']");
+        $city.empty();
+        for(var k in activeCityList) {
+            $city.append('<option value="' + activeCityList[k].id + '">' + activeCityList[k].name + '</option');
+        }
+    })
+
+    window.ace.is_repeat('/restaurant/checkexist', ['id', 'city_id'], ['name', 'name_en']);
+    window.ace.opentime_init();
+    window.ace.opentime_validate_init();
+    window.ace.purchase_way_init();
+    window.ace.ranking_init();
+    window.ace.one_group_clone_init();
+    window.ace.pic_upload("photo", picDomain, picUploadDomain);
+    
+    window.ace.file_list_init(fileDomain, fileUploadDomain);
+    window.ace.other_files_upload("others-1", fileDomain, fileUploadDomain);
+
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+        $("#checkin_time_begin, #checkin_time_end, #checkout_time_begin, #checkout_time_end").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        })
+    }, function () {
+        console.log("file load failed!");
+    });
+
+})
+</script>

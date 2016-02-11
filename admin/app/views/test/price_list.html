@@ -1,0 +1,43 @@
+<h3 class="header smaller lighter blue">编辑价格</h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('test/savepricelist');?>" method="post">
+<div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right"> 价格1 </label>
+
+    <div class="col-sm-3">
+        <input type="hidden" name="pr_type[]" value="1" />
+        <input type="text" name="pr_id[]" value="" />
+        <input type="text" required="" name="pr_title[]" placeholder="title" class="col-xs-12 autosize-transition" aria-required="true">
+        <input type="text" required="" name="pr_price[]" placeholder="price" class="col-xs-12 autosize-transition" aria-required="true">
+        <input type="text" required="" name="pr_intro[]" placeholder="备注" class="col-xs-12 autosize-transition" aria-required="true">
+    </div>
+</div>
+    
+<div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right"> 价格2 </label>
+
+    <div class="col-sm-3">
+        <input type="hidden" name="pr_type[]" value="1" />
+        <input type="text" name="pr_id[]" value="" />
+        <input type="text" required="" name="pr_title[]" placeholder="title" class="col-xs-12 autosize-transition" aria-required="true">
+        <input type="text" required="" name="pr_price[]" placeholder="price" class="col-xs-12 autosize-transition" aria-required="true">
+        <input type="text" required="" name="pr_intro[]" placeholder="备注" class="col-xs-12 autosize-transition" aria-required="true">
+    </div>
+</div>
+    
+<div class="form-group">
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-primary" type="submit">
+            <i class="icon-ok bigger-110"></i>
+            保存
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+            <i class="icon-undo bigger-110"></i>
+            返回
+            </button>
+        </div>
+    </div>
+</div>
+    
+</form>

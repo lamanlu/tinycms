@@ -1,0 +1,107 @@
+<h3 class="header smaller lighter blue">新建账号</h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url("/admin/addadmin");?>" method="post">
+	<div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 真实姓名 </label>
+
+        <div class="col-sm-3">
+            <input type="text" class="col-xs-12 autosize-transition" placeholder="真实姓名" name="nickname" required>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 用户名 </label>
+
+        <div class="col-sm-3">
+            <input type="text" class="col-xs-12 autosize-transition" placeholder="用户名" name="uname" required>
+        </div>
+    </div>
+    <div class="space-4"></div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 密码 </label>
+
+        <div class="col-sm-3">
+            <input type="password" class="col-xs-12 autosize-transition" placeholder="密码" name="pwd" id="pwd" required>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 确认密码 </label>
+
+        <div class="col-sm-3">
+            <input type="password" class="col-xs-12 autosize-transition" placeholder="密码" name="repwd" required>
+        </div>
+    </div>
+    <div class="space-4"></div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 用户组 </label>
+
+        <div class="col-sm-3">
+            <select class="form-control" name="role">
+                <option value="0">--请选择--</option>
+                <?php foreach($roleList as $role):?>
+                	<option value="<?php echo $role['id'];?>"><?php echo $role['role_name'];?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 状态 </label>
+
+        <div class="col-sm-3">
+            <select class="form-control" name="status">
+                <?php 
+                	$statusArr = array(0=>'正常',1=>'禁用');
+                	foreach($statusArr as $status => $desc):                
+                ?>
+                	<option value="<?php echo $status;?>"><?php echo $desc;?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>
+    <div class="space-4"></div>
+
+
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-primary" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn" type="button" onclick="javascript:location.href='<?php echo get_url('admin');?>'">
+                <i class="icon-undo bigger-110"></i>
+                返回
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#dataForm").validate({
+            rules: {
+                role: {
+                    required: true,
+                    min: 1			  
+                },				
+				repwd: {
+					equalTo: "#pwd",	
+				}
+            },
+            messages: {
+                country: {
+                    role: '请选择用户组',
+                    min: '请选择用户组',
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,81 @@
+<h3 class="header smaller lighter blue">编辑账号：<?php echo $admin['username'];?></h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url("/admin/updateadmin");?>" method="post">
+	<div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 真实姓名 </label>
+
+        <div class="col-sm-3">
+            <input type="text" class="col-xs-12 autosize-transition" placeholder="真实姓名" name="nickname" value="<?php echo $admin['nickname'];?>" required>
+        </div>
+    </div>
+    <div class="space-4"></div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 用户组 </label>
+
+        <div class="col-sm-3">
+            <select class="form-control" name="role">
+                <option value="0">--请选择--</option>
+                <?php foreach($roleList as $role):?>
+                	<option value="<?php echo $role['id'];?>" <?php if($admin['role_id'] == $role['id']):?>selected="selected"<?php endif;?>><?php echo $role['role_name'];?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"> 状态 </label>
+
+        <div class="col-sm-3">
+            <select class="form-control" name="status">
+                <?php 
+                	$statusArr = array(0=>'正常',1=>'禁用');
+                	foreach($statusArr as $status => $desc):                
+                ?>
+                	<option value="<?php echo $status;?>" <?php if($admin['is_baned'] == $status):?>selected="selected"<?php endif;?>><?php echo $desc;?></option>
+                <?php endforeach;?>
+            </select>
+        </div>
+    </div>
+    <div class="space-4"></div>
+
+	<input type="hidden" name="id" value="<?php echo $admin['id'];?>" />
+
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-primary" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn" type="button" onclick="javascript:location.href='<?php echo get_url('admin');?>'">
+                <i class="icon-undo bigger-110"></i>
+                返回
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#dataForm").validate({
+            rules: {
+                role: {
+                    required: true,
+                    min: 1			  
+                },				
+				repwd: {
+					equalTo: "#pwd",	
+				}
+            },
+            messages: {
+                country: {
+                    role: '请选择用户组',
+                    min: '请选择用户组',
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,590 @@
+<html>
+<head></head>
+<body>
+    <h3 class="header smaller lighter blue">编辑活动</h3>
+    <form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('activity/update');?>" method="post">
+    	<input type="hidden" name="id" value="<?php echo $activity['id'];?>">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">国家：</label>
+            <div class="col-sm-3 readonly">
+                <select class="form-control" name="country_id">
+                    <option value="0">--请选择--</option>
+            <?php foreach($countryList as $country):?>
+            	<option <?php if($country['id'] == $activity['country_id']){?><?php echo "selected='selected'";}?> value="<?php echo $country['id'];?>" class="main"><?php echo $country['name'];?></option>
+            <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">城市：</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="city_id">
+                    <option value="0" class="main">--请选择--</option>
+                <?php foreach($cityList as $city):?>
+            	<option <?php if($city['id'] == $activity['city_id']){?><?php echo "selected='selected'";}?> value="<?php echo $city['id'];?>" class="main"><?php echo $city['name'];?></option>
+            <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">供应商：</label>
+            <div class="col-sm-3">
+                <select class="form-control input" name="supplier_id" data-name="供应商">
+                <option value="0" class="main">--请选择--</option>
+            <?php foreach($supplierList as $supplier):?>
+            	<option <?php if($supplier['id'] == $activity['supplier_id']){?><?php echo "selected='selected'";}?> value="<?php echo $supplier['id'];?>" class="main"><?php echo $supplier['name'];?></option>
+            <?php endforeach;?>
+            	</select>            
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">活动名称：</label>
+            <div class="col-sm-3">
+                <input class="form-control input" name="name" placeholder="中文名称" type="text" value="<?php echo $activity['name'];?>"/>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control input" name="name_en" placeholder="英文名称" type="text" value="<?php echo $activity['name_en'];?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">地址：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="address" type="text" value="<?php echo $activity['address'];?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">活动集合地：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="acts_collective" type="text" value="<?php echo $activity['acts_collective'];?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">简介：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="intro" value="<?php echo $activity['intro'];?>"><?php echo $activity['intro'];?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">游客注意事项：</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" name="attention" type="text"><?php echo $activity['visitors_attention'];?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">活动照片：</label>
+            <div class="col-sm-3 photo-wrap">
+                <input type="file" id="photo" class="form-control" data-name="photo" />
+            </div>
+            <div class="col-sm-5">
+                <span class="input-tips">图片格式为jpg、png，1-3张，大小不超过2M</span>
+            </div>
+        </div>
+        <div class="pic-wall">
+        <?php if(!empty($activity['images'])){?>
+        <?php foreach($activity['images'] as $img):?>
+             <div>
+                <a href="<?php echo $imgDomain.$img;?>" target="_blank"><img src="<?php echo $imgDomain.$img;?>" style="width:160px;"><i class="icon-large icon-remove red"></i></a>
+                <input type="hidden" value="<?php echo $img;?>" name="photo[]">
+            </div>
+        <?php endforeach;}?>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">网址：</label>
+            <div class="col-sm-6">
+                <input class="form-control input" name="website" type="text" value="<?php echo $activity['address'];?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">排期附件：</label>
+            <div class="col-sm-3 file-wrap">
+                <input type="file" id="schedule" class="form-control" data-name="schedule"/>
+            </div>
+            <div class="col-sm-3">
+                <span class="input-tips">如破冰船排期，可为空</span>
+            </div>
+        </div>
+        <div class="file-wall">
+        <?php if(!empty($activity['files']['attachment'])){?>
+		  <div>
+		   <a target="_blank" href="<?php echo $fileDomain.$activity['files']['attachment'];?>"><span><?php echo substr($activity['files']['attachment'],12);?></span><i class="icon-large icon-remove red"></i></a>
+		   <input name="schedule" value="<?php echo $activity['files']['attachment'];?>" type="hidden" />
+		  </div>
+		<?php }?>
+        </div>
+        <div class="form-group">
+        <label class="col-sm-3 control-label">其他附件：</label>
+        <div class="col-sm-3 file-wrap">
+            <input id="others-1" type="file" class="form-control" data-name="other_attachment[]" />
+        </div>
+    	</div>
+        <?php echo attachmentHtml($activity['files']['other_attachment'],$fileDomain);?>
+        <div class="form-group">
+            <label for="" class="col-sm-3 control-label">货币：</label>
+            <div class="col-sm-3">
+                <select name="currency" id="" class="form-control">
+                    <option value="0">货币类型</option>
+                 <?php foreach(config_item('currency') as $currency_key => $currency_child):?>
+						<option value="<?php echo $currency_key;?>" <?php if($currency_key == $activity['currency']){?><?php echo "selected='selected'";}?>><?php echo $currency_child;?></option>
+                <?php endforeach;?>               
+                </select>
+            </div>
+        </div>
+        <?php echo create_sub_price_form($priceData);?>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">年龄限制：</label>
+            <div class="col-sm-2">
+                <select class="form-control" name="min_age">
+					<?php echo age_options($activity['min_age']);?>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="max_age">
+					<?php echo age_options($activity['max_age']);?>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">人数限制：</label>
+            <div class="col-sm-2">
+                <select class="form-control" name="min_number">
+					<?php echo people_num_options($activity['min_number']);?>                	
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="max_number">
+					<?php echo people_num_options($activity['max_number']);?>               
+                </select>
+            </div>
+        </div>
+        <?php if(empty($opentimeList)){?><?php echo '<div class="form-group">
+            <label class="col-sm-3 control-label">开放日期：</label>
+            <div class="col-sm-1">
+                <input type="hidden" name="ot_id[]" />
+                <select name="ot_season[]" class="input-small">';?>
+					<?php echo season_options();?>
+                <?php echo '</select>
+            </div>
+            <div class="col-sm-2">
+                <input class="input-mini" name="ot_start_date[]" placeholder="开始日期" type="text" />
+                <span class="control-label">至</span>
+                <input class="input-mini" name="ot_end_date[]" placeholder="结束日期" type="text" />
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_start_week[]" class="input-small">';?>
+					<?php echo week_options();?>
+                <?php echo '</select>
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_end_week[]" class="input-small">';?>
+					<?php echo week_options();?>
+                <?php echo '</select>
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_start_time[]" class="input-large" placeholder="开始时间">
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_end_time[]" class="input-large" placeholder="结束时间">
+            </div>
+            <div class="col-sm-1 opentime-btn-wrap btn-wrap">
+                <i class="icon-plus-sign icon-large green control-label" data-action="line-clone"></i>
+            </div>
+        </div>';}else{ ?>
+        <?php foreach($opentimeList as $opentime_child_key => $opentime_child):?>        
+        <div class="form-group">       
+            <?php if($opentime_child_key == 0){?><?php echo '<label class="col-sm-3 control-label">开放日期：</label>';}else{?>
+            <?php echo '<label class="col-sm-3 control-label"></label>';}?>
+            <div class="col-sm-1">
+                <input type="hidden" name="ot_id[]" value="<?php echo $opentime_child['id'];?>"/>
+                <select name="ot_season[]" class="input-small">
+                    <?php echo season_options($opentime_child['season']);?>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input class="input-mini" name="ot_start_date[]" placeholder="开始日期" type="text" value ="<?php if(empty($opentime_child['start_day'])){?><?php echo "";}else{?><?php echo $opentime_child['start_day'];}?>"/>
+                <span class="control-label">至</span>
+                <input class="input-mini" name="ot_end_date[]" placeholder="结束日期" type="text" value ="<?php if(empty($opentime_child['start_day'])){?><?php echo "";}else{?><?php echo $opentime_child['start_day'];}?>"/>
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_start_week[]" class="input-small">
+					<?php echo week_options($opentime_child['start_week']);?>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <select name="ot_end_week[]" class="input-small">
+                	<?php echo week_options($opentime_child['end_week']);?>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_start_time[]" class="input-large" placeholder="开始时间" value="<?php echo $opentime_child['start_time'];?>">
+            </div>
+            <div class="col-sm-1">
+                <input type="text" name="ot_end_time[]" class="input-large" placeholder="结束时间" value="<?php echo $opentime_child['end_time'];?>">
+            </div>
+            <div class="col-sm-1 opentime-btn-wrap btn-wrap">
+                <?php if($opentime_child_key == 0){?><?php echo '<i class="icon-plus-sign icon-large green control-label" data-action="line-clone"></i>';}else{?>
+				<?php echo '<i class="icon-large control-label icon-remove-sign grey" data-action="line-close"></i>';}?>
+            </div>
+        </div>
+        <?php endforeach;}?>
+        <div class="form-group">
+            <label class="control-label col-sm-3">开放时间备注：</label>
+            <div class="col-sm-6">
+                <input type="text" name="open_remark" class="form-control" value="<?php echo $activity['open_remark'];?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">购买方式(可多选)：</label>
+            <div class="col-sm-9">
+            <?php foreach(config_item('purchases') as $purchases_key => $child):?>
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="ace" value="<?php echo $purchases_key;?>" name="purchases[]">
+                    <span class="lbl">&nbsp;<?php echo $child;?></span>
+                </label>
+            <?php endforeach;?>
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订网址</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_website" class="form-control" value="<?php echo $activity['reserve_website'];?>">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订邮箱</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_email" class="form-control" value="<?php echo $activity['reserve_email'];?>">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">预订电话</label>
+            <div class="col-sm-5">
+                <input type="text" name="reserve_tel" class="form-control" value="<?php echo $activity['reserve_tel'];?>">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label for="" class="control-label col-sm-offset-3 col-sm-1">购买地址</label>
+            <div class="col-sm-5">
+                <input type="text" name="purchases_address" class="form-control" value="<?php echo $activity['purchases_address'];?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">推荐游玩时长：</label>
+            <div class="col-sm-3">
+                <input class="form-control input" name="recommended_duraion" type="text" value="<?php echo $activity['recommended_duraion'];?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">旅行设计师备注：</label>
+            <div class="col-sm-6">
+                <textarea rows="2" class="form-control" name="remark" value="<?php echo $activity['remark'];?>"><?php echo $activity['remark'];?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="clearfix form-actions">
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok bigger-110"></i>
+                    保存
+                    </button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'">
+                    <i class="icon-undo bigger-110"></i>
+                    返回
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+    var picDomain = "<?php echo $imgDomain;?>";
+    var picUploadDomain = '<?php echo $imgUploadDomain;?>';
+    var fileDomain = "<?php echo $fileDomain;?>";
+    var fileUploadDomain = "<?php echo $fileUploadDomain;?>";
+	
+    $("#dataForm").validate({
+        rules: {
+            country_id: {
+                required: true,
+                min: 1
+            },
+            name: {
+                required: true,
+            },
+            name_en: {
+                required: true,
+            },
+            city_id: {
+                required: true,
+                min: 1
+            },
+            'sub_max_age[0][0]': {
+                dateRangeMax: true,
+            },
+            'sub_min_age[0][0]': {
+                dateRangeMin: true,
+            },
+            currency: {
+                required: true,
+                min: 1 
+            },
+            supplier_id: {
+            	required: true,
+            	min: 1
+            }
+        },
+        messages: {
+            name: {
+                required: '活动名称必填',
+                min: '活动英文名称必填'
+            },
+            name_en: {
+                required: '活动英文名称必填',
+                min: '活动英文名称必填'
+            },
+            country_id: {
+                required: '请选择活动所属国家',
+                min: '请选择供应商所属国家'
+            },
+            city_id: {
+                required: '请选择活动所属国家',
+                min: '请选择供应商所属国家'
+            },
+            currency: {
+                required: '请选择货币',
+                min: '请选择货币'
+            },
+            supplier_id: {
+            	required: '请选择供应商',
+            	min: '请选择供应商'
+            }            
+        },
+        submitHandler: function(form){
+            if (window.ace.repeat_validate('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en'])) {
+                form.submit();
+            } else {
+                $('html, body').animate({scrollTop: 45}, 'fast');
+                console.log("12");
+                return false;
+            }
+        }
+    });
+	var purchases = "<?php echo $purchases;?>";
+	var purchases_arr = purchases.split(",");
+	for(i=0;i< purchases_arr.length; i++){
+		$("input[name='purchases[]']").each(function(){
+			if($(this).val() == purchases_arr[i])
+			{
+				$(this).attr("checked","true");
+				switch($(this).val()){
+				case "1":
+					$("[name='reserve_website']").parents(".form-group").show();
+					break;
+				case "2":
+					$("[name='reserve_email']").parents(".form-group").show();
+					break;
+				case "3":
+					$("[name='reserve_tel']").parents(".form-group").show();
+					break;
+				case "4":
+					$("[name='purchases_address']").parents(".form-group").show();
+					break;
+				}
+			}
+		});
+	}
+	
+	 window.ace.is_repeat('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en']);
+	window.ace.opentime_validate_init();
+    window.ace.opentime_init();
+    window.ace.widget_list_init();
+    window.ace.widget_price_validate_init();
+    window.ace.purchase_way_init();
+    window.ace.one_group_clone_init();
+    window.ace.file_list_init(fileDomain, fileUploadDomain);
+    window.ace.pic_upload("photo", picDomain, picUploadDomain);
+    window.ace.file_upload("schedule", fileDomain, fileUploadDomain);
+	$("[id^='others-']").each(function(){
+		var id = $(this).attr("id");
+		window.ace.other_files_upload(id, fileDomain, fileUploadDomain);
+	});
+
+    //单行的复制
+    $(document).on("click", "btn-wrap i", function () {
+        if(p == "group-clone") {
+            console.log("group clone")
+            var $fragment = $(document.createDocumentFragment());
+            var $clone_node = $this.parents(".form-group").clone(true);
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().clone(true);
+            $fragment.append($clone_node);
+            var $attach = $this.parents(".form-group").next();
+            $fragment.find("input").val("")
+            .end().find("select").val("0")
+            .end().find("label.control-label").text("");
+            if( $fragment.find(".icon-remove-sign").length === 0 ) {
+                $fragment.find(".btn-wrap").append('<i class="icon-large icon-remove-sign grey" data-action="line-close"></i>');
+            }
+            $attach.after($fragment);
+            if( $attach.next().find("input[type='file']").length > 0 ) {
+                var file_id = $attach.next().find("input[type='file']").attr("id");
+                window.ace.pic_upload(file_id)
+            }
+        }
+    })
+
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        // 加载完成后的操作
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js"); //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        //加载完成后的操作
+        $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+	
+	
+    //个人费用和团队费用的切换
+    $(document).on("click", ".widget-header button.btn", function (e) {
+        e.preventDefault();
+        var click_type = $(this).data("type");
+        var selected_type = $(this).parent().find(".selected").data("type");
+        if( click_type != selected_type ) {
+            if(click_type == "team") {
+                var $widget_main = $(this).parents(".widget-box").find(".widget-main");
+                $widget_main.empty().append('<div class="widget-item"><div class="widget-item-list"><div class="form-inline"><input type="text" name="[0][]" class="input-small" placeholder="价钱"><input type="text" name="[0][]" class="input-small" placeholder="最小人数限制"><input type="text" name="[0][]" class="input-small" placeholder="最大人数限制"></div><div class="form-inline"><input type="text" name="[0][]" class="input-xxlarge" placeholder="价格说明"></div></div><div class="widget-item-btn-wrap btn-wrap"><i class="icon-large icon-plus-sign green" data-action="item-clone"></i></div></div>');
+            } else {
+                var $widget_main = $(this).parents(".widget-box").find(".widget-main");
+                $widget_main.empty().append('<div class="widget-item"><div class="widget-item-list"><div class="form-inline"><input type="text" name="[0][]" class="input-small" placeholder="儿童/老人"><input type="text" name="[0][]" class="input-small" placeholder="价钱"><select name="min-age[0][]" class="input-mini age"><option value="0">岁数</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option><option value="60">60</option><option value="61">61</option><option value="62">62</option><option value="63">63</option><option value="64">64</option><option value="65">65</option><option value="66">66</option><option value="67">67</option><option value="68">68</option><option value="69">69</option><option value="70">70</option><option value="71">71</option><option value="72">72</option><option value="73">73</option><option value="74">74</option><option value="75">75</option><option value="76">76</option><option value="77">77</option><option value="78">78</option><option value="79">79</option><option value="80">80</option><option value="81">81</option><option value="82">82</option><option value="83">83</option><option value="84">84</option><option value="85">85</option><option value="86">86</option><option value="87">87</option><option value="88">88</option><option value="89">89</option><option value="90">90</option><option value="91">91</option><option value="92">92</option><option value="93">93</option><option value="94">94</option><option value="95">95</option><option value="96">96</option><option value="97">97</option><option value="98">98</option><option value="99">99</option><option value="100">100</option></select><label class="inline">至</label><select name="max-age[0][]" class="input-mini age"><option value="0">岁数</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option><option value="60">60</option><option value="61">61</option><option value="62">62</option><option value="63">63</option><option value="64">64</option><option value="65">65</option><option value="66">66</option><option value="67">67</option><option value="68">68</option><option value="69">69</option><option value="70">70</option><option value="71">71</option><option value="72">72</option><option value="73">73</option><option value="74">74</option><option value="75">75</option><option value="76">76</option><option value="77">77</option><option value="78">78</option><option value="79">79</option><option value="80">80</option><option value="81">81</option><option value="82">82</option><option value="83">83</option><option value="84">84</option><option value="85">85</option><option value="86">86</option><option value="87">87</option><option value="88">88</option><option value="89">89</option><option value="90">90</option><option value="91">91</option><option value="92">92</option><option value="93">93</option><option value="94">94</option><option value="95">95</option><option value="96">96</option><option value="97">97</option><option value="98">98</option><option value="99">99</option><option value="100">100</option></select></div><div class="form-inline"><input type="text" name="[0][]" class="input-xxlarge" placeholder="价格说明"></div></div><div class="widget-item-btn-wrap btn-wrap"><i class="icon-large icon-plus-sign green" data-action="item-clone"></i></div></div>');
+            }
+            window.ace.adjustInnerWidgetArray();
+        }
+        $(this).addClass("btn-primary selected").parent().siblings().find("button").removeClass("selected btn-primary");
+    })
+    //购买方式的显示隐藏
+    $("input[name='purchases']").click(function () {
+        var value = $(this).val();
+        switch (value) {
+            case "1": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_website']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_website']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "2": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_email']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_email']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "3": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_tel']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_tel']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "4": {
+                if( $(this).is(":checked") ) {
+                    $("[name='purchases_address']").parents(".form-group").show();
+                } else {
+                    $("[name='purchases_address']").parents(".form-group").hide();
+                }
+                break;
+            }
+        }
+    })
+});
+
+    $("select[name='country_id']").on("change",function(){
+        $.ajax({
+            type: 'POST',
+            url: '../supplier/getCityByCountryId',
+            data:{
+                country_id: $("select[name='country_id']").val()
+            },
+            success: function(data){
+                $("select[name='city_id'] option").remove(".main");
+                var city_list = JSON.parse(data);
+                for(var key in city_list)
+                {
+                    $("select[name='city_id']").append("<option value='"+key+"' class='main'>"+city_list[key]['name']+"</option>");
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '../activity/getSupplierByCityId',
+                    data:{
+                        city_id: $("select[name='city_id']").val()
+                    },
+                    success:function(data){
+                        $("select[name='supplier_id'] option").remove(".main");
+                        var supplier_list = JSON.parse(data);
+                        for(var key in supplier_list)
+                        {
+                        	var supplier_list_id = supplier_list[key]['id'];
+                            $("select[name='supplier_id']").append("<option value='"+supplier_list_id+"' class='main'>"+supplier_list[key]['name']+"</option>");
+                        }
+                    }
+                });
+                window.ace.repeat_validate('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en']);
+            }
+        });        
+    });
+    $("select[name='city_id']").on("change",function(){
+        $.ajax({
+            type: 'POST',
+            url: '../activity/getSupplierByCityId',
+            data:{
+                city_id: $("select[name='city_id']").val()
+            },
+            success:function(data){
+                $("select[name='supplier_id'] option").remove(".main");
+                var supplier_list = JSON.parse(data);
+                var supplier_id = "<?php echo $activity['supplier_id'];?>";
+                for(var key in supplier_list)
+                {
+                	var supplier_list_id = supplier_list[key]['id'];
+                	if(supplier_list['id'] == supplier_id){
+                    	$("select[name='supplier_id']").append("<option value='"+supplier_list_id+"' class='main' checked>"+supplier_list[key]['name']+"</option>");
+                	}else{
+                		$("select[name='supplier_id']").append("<option value='"+supplier_list_id+"' class='main'>"+supplier_list[key]['name']+"</option>");
+                	}
+                }
+                window.ace.repeat_validate('/activity/checkexist', ['id', 'city_id','supplier_id'], ['name', 'name_en']);
+            }
+        });
+    });
+    
+/*     $(function () {
+        
+        var picDomain = "<?php echo $imgDomain;?>";
+        var picUploadDomain = "<?php echo $imgUploadDomain;?>"";
+        window.ace.pic_upload("picAdd", picDomain, picUploadDomain);
+        window.ace.pic_upload("attachAdd", picDomain, picUploadDomain);
+    }); */
+</script>

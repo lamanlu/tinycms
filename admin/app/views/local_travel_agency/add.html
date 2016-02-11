@@ -1,0 +1,238 @@
+
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('/localtravelagency/save');?>" method="post">
+<div class="form-group">
+    <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 国家：</label>
+
+    <div class="col-sm-3">
+        <select class="form-control" name="country">
+            <option value="0">--请选择--</option>
+            <?php foreach($countryList as $country):?>
+            	<option value="<?php echo $country['id'];?>"><?php echo $country['name'];?></option>
+            <?php endforeach;?>
+        </select>
+    </div>
+</div>
+	
+<div class="space-4"></div>
+
+<div class="form-group">
+    <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 城市：</label>
+
+    <div class="col-sm-3">
+        <select class="form-control" name="city">
+            <option value="0">--请选择--</option>
+        </select>
+    </div>
+</div>
+	
+<div class="space-4"></div>
+
+<div class="form-group">
+    <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 名称：</label>
+
+    <div class="col-sm-9">
+        <input type="text" class="col-xs-10 col-sm-5" placeholder="名称" name="name" required>
+    </div>
+</div>
+
+<div class="space-4"></div>
+	
+<div class="form-group">
+    <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 地址：</label>
+
+    <div class="col-sm-9">
+        <input type="text" class="col-xs-10 col-sm-5" placeholder="地址" name="address">
+    </div>
+</div>
+
+<div class="space-4"></div>
+	
+<div class="form-group">
+    <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 电话：</label>
+
+    <div class="col-sm-9">
+        <input type="text" class="col-xs-10 col-sm-5" placeholder="电话" name="tel">
+    </div>
+</div>
+
+<div class="space-4"></div>
+	
+<div class="form-group">
+    <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> Email：</label>
+
+    <div class="col-sm-9">
+        <input type="text" class="col-xs-10 col-sm-5" placeholder="email" name="email">
+    </div>
+</div>
+
+<div class="space-4"></div>
+	
+<div class="form-group">
+    <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 结算方式：</label>
+
+    <div class="col-sm-9">
+		<?php foreach(config_item('settlement') as $index => $payment):?>
+		<label class="checkbox-inline">
+			<input type="checkbox" value="<?php echo $index;?>" name="payment[]"><?php echo $payment;?>
+		</label>
+		<?php endforeach;?>
+		
+    </div>
+</div>
+		
+<div class="space-4"></div>
+
+<div class="bank_account" style="display:none">
+	
+	<div class="form-group">
+		<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 银行账户：</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="收款人名称" name="payee_name">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="form-group">
+		<label for="form-field-1" class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="收款人地址" name="payee_address">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="form-group">
+		<label for="form-field-1" class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="IBANK" name="ibank">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="form-group">
+		<label for="form-field-1" class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="开户银行名称" name="bank_account_name">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="form-group">
+		<label for="form-field-1" class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="开户银行地址" name="bank_account_address">
+		</div>
+	</div>
+	
+	<div class="space-4"></div>
+	
+	<div class="form-group">
+		<label for="form-field-1" class="col-sm-3 control-label no-padding-right">&nbsp;</label>
+
+		<div class="col-sm-9">
+			<input type="text" class="col-xs-10 col-sm-5" placeholder="SWIFT/BIC" name="swift/bic">
+		</div>
+	</div>
+	
+</div>
+	
+<div class="space-4"></div>
+
+<div class="form-group">
+    <label for="desc" class="col-sm-3 control-label no-padding-right"> 备忘：</label>
+
+    <div class="col-sm-9">
+        <textarea name="desc" id="desc" class="autosize-transition form-control"></textarea>
+    </div>
+</div>
+
+<div class="space-4"></div>
+	
+<div class="clearfix form-actions">
+    <div class="col-md-offset-3 col-md-9">
+        <button class="btn btn-info" type="submit">
+            <i class="icon-ok bigger-110"></i>
+            保存
+        </button>
+
+        &nbsp; &nbsp; &nbsp;
+        <button class="btn" type="button" onclick="javascript:location.href='<?php echo get_url('localtravelagency');?>'">
+            <i class="icon-undo bigger-110"></i>
+            返回
+        </button>
+    </div>
+</div>
+</form>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+			
+	$("#dataForm").validate({
+		rules: {
+			country: {
+			  required: true,
+			  min: 1			  
+			},
+			city: {
+				required: true,
+				min: 1
+			},
+			name: {
+				required: true,
+			},
+			email: {
+				email: true
+			}
+		},
+		messages: {
+			country: {
+			  required: '请选择国家',
+			  min: '请选择国家',
+			},
+			city: {
+			  required: '请选择城市',
+			  min: '请选择城市',
+			},
+			name: {
+			  required: '地接社名字必填',
+			},
+			email: {
+				email: '请输入正确的邮箱'
+			}
+	  }
+	});
+	$(document).on("change","[name='payment[]']:eq(2)",function(){
+		$(".bank_account").toggle();
+	});
+        
+	$("select[name='country']").on("change",function(){
+		$.ajax({
+			type: 'POST',
+			url: '../city/getCityByCountryId',
+			data:{
+				country_id: $("select[name='country']").val()
+			},
+			success:function(data){
+				
+				$("select[name='city'] option").remove(".main");
+				var city_list = JSON.parse(data);
+				
+				for(var key in city_list)
+				{
+					$("select[name='city']").append("<option value='"+key+"' class='main'>"+city_list[key]['name']+"</option>");
+				}
+			}
+		});
+	});
+    });
+	
+</script>

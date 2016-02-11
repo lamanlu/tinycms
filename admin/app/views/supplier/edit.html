@@ -1,0 +1,329 @@
+
+<html>
+ <head></head>
+ <body>
+  <form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url('supplier/update');?>" method="post">
+   <div class="form-group"> 
+    <label class="col-sm-3 control-label">国家：</label> 
+    <div class="col-sm-3 readonly">
+             <select class="form-control" name="country_id">
+            <option value="0">--请选择--</option>
+            <?php foreach($countryList as $country):?>
+            	<option <?php if($country['id'] == $country_select){?><?php echo "selected='selected'";}?> value="<?php echo $country['id'];?>" class="main"><?php echo $country['name'];?></option>
+            <?php endforeach;?>
+        </select>
+    </div> 
+   </div> 
+   <div class="form-group"> 
+    <label class="col-sm-3 control-label">城市：</label>    
+        <div class="col-sm-3">
+        <select class="form-control" name="city_id">
+        <option value="0">--请选择--</option>
+             <?php foreach($cityList as $city):?>
+            	<option <?php if($city['id'] == $city_select){?><?php echo "selected='selected'";}?> value="<?php echo $city['id'];?>" class="main"><?php echo $city['name'];?></option>
+            <?php endforeach;?>
+        </select>
+    </div>
+   </div> 
+   <div class="form-group">
+    <label class="col-sm-3 control-label">供应商名称：</label>
+    <div class="col-sm-3">
+     <input class="form-control input" name="name" type="text" value="<?php echo $supplier['name'];?>" />
+    </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">办公地址：</label>
+    <div class="col-sm-3">
+     <input class="form-control input" name="addr" type="text" value="<?php echo $supplier['address'];?>"/>
+    </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">网站：</label>
+    <div class="col-sm-3">
+     <input class="form-control input" name="website" type="text" value="<?php echo $supplier['website'];?>"/>
+    </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">电话号码：</label>
+    <div class="col-sm-3">
+     <input class="form-control input" name="tel" type="tel" value="<?php echo $supplier['tel'];?>"/>
+    </div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">E-mail：</label>
+    <div class="col-sm-3">
+     <input class="form-control input" name="e_mail" type="email" value="<?php echo $supplier['e_mail'];?>"/>
+    </div>
+   </div>
+   <div class="form-group">
+    <label class="control-label col-sm-3">结算方式</label>
+    <div class="col-sm-1">
+     <input name="pay_way[]" value="1"  type="checkbox" />
+     <span>信用卡</span>
+    </div>
+    <div class="col-sm-1">
+     <input name="pay_way[]" value="2" type="checkbox" />
+     <span>现金</span>
+    </div>
+    <div class="col-sm-1">
+     <input id="huikuan" name="pay_way[]" value="3" type="checkbox"  />
+     <span>汇款</span>
+    </div>
+    <div class="col-sm-1">
+     <input name="pay_way[]" value="4" type="checkbox" />
+     <span>线上支付</span>
+    </div>
+   </div>
+   <div class="bank_account" style="display:none">
+   <div class="form-group bank">
+    <label class="control-label col-sm-3">银行账户:</label>
+    <div class="col-sm-3">
+     <input class="form-control input" name="payee_name" placeholder="收款人名称" type="text" value="<?php echo $supplier['payee_name'];?>"/>
+    </div>
+   </div>
+   <div class="form-group bank">
+    <div class="col-sm-offset-3 col-sm-3">
+     <input class="form-control input" name="payee_addr" placeholder="收款人地址" type="text" value="<?php echo $supplier['payee_addr'];?>"/>
+    </div>
+   </div>
+   <div class="form-group bank">
+    <div class="col-sm-offset-3 col-sm-3">
+     <input class="form-control input" name="IBAN" placeholder="IBAN" type="text" value="<?php echo $supplier['IBAN'];?>"/>
+    </div>
+   </div>
+   <div class="form-group bank">
+    <div class="col-sm-offset-3 col-sm-3">
+     <input class="form-control input" name="bank_name" placeholder="开户银行名称" type="text" value="<?php echo $supplier['bank_name'];?>"/>
+    </div>
+   </div>
+   <div class="form-group bank">
+    <div class="col-sm-offset-3 col-sm-3">
+     <input class="form-control input" name="bank_addr" placeholder="开户银行地址" type="text" value="<?php echo $supplier['bank_addr'];?>"/>
+    </div>
+   </div>
+   <div class="form-group bank">
+    <div class="col-sm-offset-3 col-sm-3">
+     <input class="form-control input" name="SWIFT_BIC" placeholder="SWIFT/BIC" type="text" value="<?php echo $supplier['SWIFT_BIC'];?>"/>
+    </div>
+   </div>
+   </div>
+   <input type="hidden" name="supplier_id" value="<?php echo $supplier_id?>">
+   <div class="form-group">
+    <div class="col-sm-3 show acts"></div>
+   </div>
+   <div class="form-group">
+    <label class="col-sm-3 control-label">备忘：</label>
+    <div class="col-sm-6">
+     <textarea rows="2" class="form-control" name="memo"  value="<?php echo $supplier['memo'];?>"><?php echo $supplier['memo'];?></textarea>
+    </div>
+   </div>
+   <div class="modal fade" id="modal">
+    <div class="modal-dialog modal-lg">
+     <div class="modal-content">
+      <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <h4 class="modal-title">添加新活动</h4>
+      </div>
+      <div class="modal-body"></div>
+     </div>
+     <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+   </div>
+   <!-- /.modal -->
+   <div class="form-group">
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-primary" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn" type="button" onclick="javascript:location.href='javascript:history.go(-1)'"></a>
+                <i class="icon-undo bigger-110"></i>
+                返回
+            </button>
+        </div>
+    </div>
+   </div>
+  </form>
+ </body>
+</html>
+
+<script type="text/javascript" src="../js/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $("#dataForm").validate({
+        rules: {
+            country_id: {
+                required: true,
+                min: 1
+            },
+            name: {
+                required: true
+            },
+            city_id: {
+                required: true,
+                min: 1
+            },
+            "file_type[]": {
+                number: true
+            }
+        },
+        messages: {
+            name: {
+                required: '活动名称必填',
+                min: '活动称必填'
+            },
+            country_id: {
+                required: '请选择供应商所属国家',
+                min: '请选择供应商所属国家'
+            },
+            city_id: {
+                required: '请选择供应商所属国家',
+                min: '请选择供应商所属国家'
+            }
+        },
+        submitHandler: function(form){
+            if (window.ace.repeat_validate('/supplier/checkexist', ['id', 'city_id'], ['name'])) {
+                form.submit();
+            } else {
+                $('html, body').animate({scrollTop: 45}, 'fast');
+                console.log("12");
+                return false;
+            }
+        }
+    });
+	
+    window.ace.is_repeat('/supplier/checkexist', ['id', 'city_id'], ['name']);
+    //单行的复制
+    $(document).on("click", "btn-wrap i", function () {
+        if(p == "group-clone") {
+            console.log("group clone")
+            var $fragment = $(document.createDocumentFragment());
+            var $clone_node = $this.parents(".form-group").clone(true);
+            $fragment.append($clone_node);
+            $clone_node = $this.parents(".form-group").next().clone(true);
+            $fragment.append($clone_node);
+            var $attach = $this.parents(".form-group").next();
+            $fragment.find("input").val("")
+            .end().find("select").val("0")
+            .end().find("label.control-label").text("");
+            if( $fragment.find(".icon-remove-sign").length === 0 ) {
+                $fragment.find(".btn-wrap").append('<i class="icon-large icon-remove-sign grey" data-action="line-close"></i>');
+            }
+            $attach.after($fragment);
+            if( $attach.next().find("input[type='file']").length > 0 ) {
+                var file_id = $attach.next().find("input[type='file']").attr("id");
+                window.ace.pic_upload(file_id)
+            }
+        }
+    })
+
+    //购买方式的显示隐藏
+    $("input[name='purchases']").click(function () {
+        var value = $(this).val();
+        switch (value) {
+            case "1": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_website']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_website']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "2": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_email']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_email']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "3": {
+                if( $(this).is(":checked") ) {
+                    $("[name='reserve_tel']").parents(".form-group").show();
+                } else {
+                    $("[name='reserve_tel']").parents(".form-group").hide();
+                }
+                break;
+            }
+            case "4": {
+                if( $(this).is(":checked") ) {
+                    $("[name='purchases_address']").parents(".form-group").show();
+                } else {
+                    $("[name='purchases_address']").parents(".form-group").hide();
+                }
+                break;
+            }
+        }
+    })
+
+    //调用日期选择器和时间选择器
+    window.ace.load_file( "../css/datepicker.css", "css" );
+    window.ace.load_file( "../js/date-time/bootstrap-datepicker.min.js", "js", function () {
+        // 加载完成后的操作
+        $("[name='ot_start_date[]'], [name='ot_end_date[]']").datepicker({
+            maxViewMode: 'months',
+            format: 'mm-dd'
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+
+    window.ace.load_file( "../css/bootstrap-timepicker.css", "css" );
+    window.ace.load_file("../js/date-time/moment.min.js", "js") //调用需要引入该文件
+    window.ace.load_file("../js/date-time/bootstrap-timepicker.min.js", "js", function () {
+        //加载完成后的操作
+        $("[name='ot_start_time[]'], [name='ot_end_time[]']").timepicker({
+            minuteStep: 1,
+            showSeconds: false,
+            showMeridian: false,
+            appendWidgetTo: ':first',
+        });
+    }, function () {
+        console.log("file load failed!");
+    });
+    
+	var pay_way = "<?php echo $pay_way?>";
+	var pay_arr = pay_way.split(",");
+	for(i=0;i< pay_arr.length; i++){
+		if(pay_arr[i] == 3){
+			$(".bank_account").show();
+		}
+		$("input[name='pay_way[]']").each(function(){
+			if($(this).val() == pay_arr[i])
+			{
+				$(this).attr("checked","true");
+				
+			}
+		});
+	}
+	$(document).on("change","#huikuan",function(){
+		$(".bank_account").toggle();
+	})
+});
+
+$("select[name='country_id']").on("change",function(){
+	$.ajax({
+		type: 'POST',
+		url: '../city/getCityByCountryId',
+		data:{
+			country_id: $("select[name='country_id']").val()
+		},
+		success:function(data){
+			
+			$("select[name='city_id'] option").remove(".main");
+			var city_list = JSON.parse(data);
+			
+			for(var key in city_list)
+			{	
+				$("select[name='city_id']").append("<option value='"+key+"' class='main'>"+city_list[key]['name']+"</option>");
+			}
+			window.ace.repeat_validate('/supplier/checkexist', ['id', 'city_id'], ['name']);
+		}
+	});
+});
+</script>
