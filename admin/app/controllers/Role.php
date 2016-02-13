@@ -14,6 +14,26 @@ class Role extends MY_Controller{
         $this->load->model('AdmRoleNode_model','RoleNodeModel');
     }
     
+    public function index(){
+        
+    }
+    
+    public function getList(){
+        
+    }
+    
+    public function add(){
+        
+    }
+    
+    public function edit(){
+        
+    }
+    
+    public function delete(){
+        
+    }
+    
     public function roleNode(){
         $this->setBreadcrumb('设置权限');
         
@@ -26,7 +46,7 @@ class Role extends MY_Controller{
         $this->display('role/role_node.html');
     }
     
-    public function save(){
+    public function saveRoleNode(){
         $nodes = $this->postField('node');
         $roleId = intval($this->postField('id'));
 

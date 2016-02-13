@@ -1,5 +1,5 @@
 <h3 class="header smaller lighter blue">设置权限</h3>
-<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url("/role/save");?>" method="post">
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url("/role/saveRoleNode");?>" method="post">
     <?php foreach($nodeArr as $node):?>
         <input type="checkbox" name="node[<?php echo $node['id'];?>][0]" id="<?php echo 'node_'.$node['id'];?>" value="<?php echo $node['id'];?>" <?php if(!empty($node['role_id'])):?>checked="checked"<?php endif;?>>
         <label for="<?php echo 'node_'.$node['id'];?>"><?php echo $node['node_name'];?></label>
