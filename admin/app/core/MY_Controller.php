@@ -1,7 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require APPPATH.'traits/ACL.php';
+
 class MY_Controller extends CI_Controller {
+    
+    use ACL;
     
     protected $_PageSize = 15;
 
@@ -17,8 +21,10 @@ class MY_Controller extends CI_Controller {
         
         $this->checkLogin();
         
+        $this->checkACL();
+        
         //加载站点全局系统配置               
-//        $this->loadSysConfig();
+        $this->loadSysConfig();
     }
     
     protected function getField($key,$xss = FALSE){
@@ -46,7 +52,7 @@ class MY_Controller extends CI_Controller {
     
     protected function loadSysConfig(){
         $this->load->model('SysConfig_model','SysConfigModel'); 
-        $configs = $this->SysConfigModel->getConfigList();
+        $configs = $this->SysConfigModel->getConfigList(1);
         if(!empty($configs)){
             foreach ($configs as $config){
                 $this->_SYS_Config[$config['config_key']] = $config['config_val'];

@@ -1,0 +1,28 @@
+<h3 class="header smaller lighter blue">设置权限</h3>
+<form id="dataForm" class="form-horizontal" role="form" action="<?php echo get_url("/role/save");?>" method="post">
+    <?php foreach($nodeArr as $node):?>
+        <input type="checkbox" name="node[<?php echo $node['id'];?>][0]" id="<?php echo 'node_'.$node['id'];?>" value="<?php echo $node['id'];?>" <?php if(!empty($node['role_id'])):?>checked="checked"<?php endif;?>>
+        <label for="<?php echo 'node_'.$node['id'];?>"><?php echo $node['node_name'];?></label>
+        <?php if(isset($node['sub'])):?>
+            <?php foreach($node['sub'] as $subNode):?>
+                <input type="checkbox" name="node[<?php echo $node['id'];?>][<?php echo $subNode['id'];?>]" id="<?php echo 'node_'.$subNode['id'];?>" value="<?php echo $subNode['id'];?>" <?php if(!empty($subNode['role_id'])):?>checked="checked"<?php endif;?>>
+                <label for="<?php echo 'node_'.$subNode['id'];?>"><?php echo $subNode['node_name'];?></label>
+            <?php endforeach;?>
+        <?php endif;?>
+    <?php endforeach;?>
+    <input type="hidden" name="id" value="<?php echo $roleId;?>">
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-primary" type="submit">
+                <i class="icon-ok bigger-110"></i>
+                保存
+            </button>
+
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn" type="button" onclick="javascript:location.href='<?php echo get_url('city');?>'">
+                <i class="icon-undo bigger-110"></i>
+                返回
+            </button>
+        </div>
+    </div>
+</form>

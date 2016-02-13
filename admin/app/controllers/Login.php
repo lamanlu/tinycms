@@ -9,8 +9,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller{
     
+    use ACL;
+    
     public function __construct() {
-        parent::__construct();
+        parent::__construct();        
     }
     
     public function index(){
@@ -70,7 +72,10 @@ class Login extends CI_Controller{
         
         $this->session->set_userdata('admin_uid',$admin['id']);
         $this->session->set_userdata('admin_uname',$admin['username']);
-        $this->session->set_userdata('admin_nickname',$admin['nickname']);        
+        $this->session->set_userdata('admin_nickname',$admin['nickname']);
+        $this->session->set_userdata('admin_roleId',$admin['role_id']);        
+        
+        $this->loadRoleACL($admin['role_id']);
         
         $data = array(
             'code' => 1,
