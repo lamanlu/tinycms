@@ -16,6 +16,7 @@ trait RedisMQ {
      * @param string $topic
      * @param string $msg
      * @return boolean
+     * @author LamanLu
      * @since 2016-02-26
      */
     public function producer($topic,$msg){
@@ -37,6 +38,8 @@ trait RedisMQ {
      * 处理队列消息
      * @param string $topic
      * @return boolean
+     * @author LamanLu
+     * @since 2016-02-26
      */
     public function consumer($topic){
         if($topic == ''){
@@ -51,11 +54,10 @@ trait RedisMQ {
             $msg = $this->RedisMQ->getMsg($topic);
             
             if($msg === FALSE){
-                echo 'no msg'.PHP_EOL;
                 sleep(1);
                 continue;
             }
-            echo $msg.PHP_EOL;
+            
             $this->worker($msg);
         }
     }

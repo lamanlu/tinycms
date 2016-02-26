@@ -41,6 +41,8 @@ class Redis_mq {
      * Set msg into topic
      * @param type $topic 主题
      * @param type $msg 内容
+     * @author LamanLu
+     * @since 2016-02-26
      */
     public function setMsg($topic,$msg){
         $this->_Redis->lPush($topic,$msg);
@@ -49,6 +51,8 @@ class Redis_mq {
     /**
      * Get a msg from topic
      * @param type $topic 主题
+     * @author LamanLu
+     * @since 2016-02-26
      */
     public function getMsg($topic){
         
