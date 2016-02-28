@@ -7,6 +7,9 @@
 trait RedisMQ {
     
     private function setDaemon(){
+        if(!is_cli()){
+            exit('CLI Only');
+        }
         ignore_user_abort(true);
         set_time_limit(0);
     }
@@ -25,13 +28,11 @@ trait RedisMQ {
             return FALSE;
         }
         
-        $this->setDaemon();
+        $this->load->library('Redis_connecter','redis_mq','RedisMQ');
+        $redisMQ = $this->RedisMQ->getInstance();
+
+        return $redisMQ->lPush($topic,$msg);
         
-        $this->load->library('Redis_mq',NULL,'RedisMQ');
-        
-        $this->RedisMQ->setMsg($topic,$msg);
-        
-        return TRUE;
     }
     
     /**
@@ -48,10 +49,8 @@ trait RedisMQ {
 
         $this->setDaemon();
         
-        $this->load->library('Redis_mq',NULL,'RedisMQ');
-        
         while(TRUE){
-            $msg = $this->RedisMQ->getMsg($topic);
+            $msg = $this->getMsg($topic);
             
             if($msg === FALSE){
                 sleep(1);
@@ -63,6 +62,21 @@ trait RedisMQ {
     }
     
     /**
+     * 获取队列长度
+     * @param string $topic
+     * @return int
+     * @author LamanLu
+     * @since 2016-02-28
+     */
+    public function getMQLength($topic){
+        $this->load->library('Redis_connecter','redis_mq','RedisMQ');
+        $redisMQ = $this->RedisMQ->getInstance();
+        
+        return $redisMQ->lSize($topic);
+    }
+
+
+    /**
      * 处理消息
      * @param string $msg
      * @author LamanLu
@@ -70,6 +84,26 @@ trait RedisMQ {
      */
     private function worker($msg){
         //deal with msg
+    }
+    
+    /**
+     * Get a msg from topic
+     * @param type $topic 主题
+     * @author LamanLu
+     * @since 2016-02-26
+     */
+    private function getMsg($topic){
+        
+        $this->load->library('Redis_connecter','redis_mq','RedisMQ');
+        $redisMQ = $this->RedisMQ->getInstance();
+        
+        $msg = $redisMQ->brPop($topic,1);
+
+        if(empty($msg) || !isset($msg[1])){
+            return FALSE;
+        }
+        
+        return $msg[1];
     }
 }
 

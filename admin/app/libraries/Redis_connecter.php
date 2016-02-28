@@ -1,0 +1,43 @@
+<?php
+/**
+ * @package Redis Connecter
+ * @author LamanLu
+ * @since 2016-02-28
+ */
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Redis_connecter {
+    
+    protected $_Redis = null;
+    
+    public function __construct($configName = 'redis_mq') {
+        $CI =& get_instance();
+        
+        if ($CI->config->load($configName, TRUE, TRUE)){
+            $config = $CI->config->item($configName);
+        }
+        
+        if(empty($config)){
+            exit('No redis MQ config file');
+        }
+        
+        $this->_Redis= new Redis();
+        $success = $this->_Redis->connect($config['host'],  $config['port'],$config['timeout']);
+        if ( ! $success){
+            exit('RedisMQ: Redis connection failed. Check your configuration.');
+        }
+
+        if (isset($config['password']) && !is_null($config['password'])){
+            if(! $this->_Redis->auth($config['password'])){
+                exit('RedisMQ: Redis authentication failed.');
+            }
+        }
+        
+    }
+    
+    public function getInstance(){
+        return $this->_Redis;
+    }
+    
+    
+}
