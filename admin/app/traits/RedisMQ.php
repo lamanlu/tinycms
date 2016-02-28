@@ -28,7 +28,7 @@ trait RedisMQ {
             return FALSE;
         }
         
-        $this->load->library('Redis_connecter','redis_mq','RedisMQ');
+        $this->load->library('Redis_connecter',array('redis_mq'),'RedisMQ');
         $redisMQ = $this->RedisMQ->getInstance();
 
         return $redisMQ->lPush($topic,$msg);
@@ -69,7 +69,7 @@ trait RedisMQ {
      * @since 2016-02-28
      */
     public function getMQLength($topic){
-        $this->load->library('Redis_connecter','redis_mq','RedisMQ');
+        $this->load->library('Redis_connecter',array('redis_mq'),'RedisMQ');
         $redisMQ = $this->RedisMQ->getInstance();
         
         return $redisMQ->lSize($topic);
@@ -94,7 +94,7 @@ trait RedisMQ {
      */
     private function getMsg($topic){
         
-        $this->load->library('Redis_connecter','redis_mq','RedisMQ');
+        $this->load->library('Redis_connecter',array('redis_mq'),'RedisMQ');
         $redisMQ = $this->RedisMQ->getInstance();
         
         $msg = $redisMQ->brPop($topic,1);

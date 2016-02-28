@@ -50,4 +50,18 @@ class Test extends CI_Controller{
         
         return TRUE;
     }
+    
+    public function set(){
+        $this->load->library('Redis_cluster',array('redis_cms'),'RedisCluster');
+        $redisCluster = $this->RedisCluster->getInstance();
+        
+        $redisCluster->set('abc','123');
+    }
+    
+    public function get(){
+        $this->load->library('Redis_cluster',array('redis_cms'),'RedisCluster');
+        $redisCluster = $this->RedisCluster->getInstance();
+        
+        echo $redisCluster->get('abc');
+    }
 }

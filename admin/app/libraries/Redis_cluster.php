@@ -1,12 +1,12 @@
 <?php
 /**
- * @package Redis Connecter
+ * @package Redis Cluster Connecter
  * @author LamanLu
  * @since 2016-02-28
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Redis_connecter {
+class Redis_cluster {
     
     protected $_Redis = null;
     
@@ -23,18 +23,12 @@ class Redis_connecter {
             exit('No redis MQ config file');
         }
         
-        $this->_Redis= new Redis();
-        $success = $this->_Redis->connect($config['host'],  $config['port'],$config['timeout']);
-        if ( ! $success){
-            exit('RedisMQ: Redis connection failed. Check your configuration.');
+        $hostArr = array();
+        foreach($config as $conf){
+            $hostArr[] = $conf['host'].':'.$conf['port'];
         }
 
-        if (isset($config['password']) && !is_null($config['password'])){
-            if(! $this->_Redis->auth($config['password'])){
-                exit('RedisMQ: Redis authentication failed.');
-            }
-        }
-        
+        $this->_Redis= new RedisCluster(NULL,$hostArr);        
     }
     
     public function getInstance(){
