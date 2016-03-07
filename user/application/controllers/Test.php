@@ -24,6 +24,18 @@ class Test extends MY_Controller {
         }
     }
     
+    public function reg(){
+        $this->display('test/reg.html','blank.html');
+    }
+    
+    public function login(){
+        $this->display('test/login.html','blank.html');
+    }
+    
+    public function echoSession(){
+        print_r($_SESSION);
+    }
+    
 }
 
 

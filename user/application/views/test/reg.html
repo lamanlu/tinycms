@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Reg test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="/js/jquery-2.0.3.min.js"></script>
+        <script>
+            function reg(){
+                console.log('reg');
+                var uname = $('#uname').val();
+                var pwd = $('#password').val();
+                var repwd = $('#repwd').val();
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo get_url('user/regist');?>",
+                    data: {username:uname,password:pwd,repwd:repwd},
+                    dataType: "json",
+                    success: function(data){
+                        alert(data.msg);
+                    }
+                 });
+            }
+        </script>
+    </head>
+    <body>
+        <div>Reg</div>
+        <div>
+            用户名：<input type="text" name="uname" id="uname" value=""/><br/>
+            密码：<input type="password" name="password" id="password" value=""/><br/>
+            确认密码：<input type="password" name="repwd" id="repwd" value=""/><br/>
+            <a href="#" onclick="reg();">注册</a>
+        </div>
+    </body>
+</html>

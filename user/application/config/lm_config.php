@@ -9,5 +9,5 @@
 $config['dbprefix'] = 'pre_';
 
 //密码SALT
-$config['salt_key'] = '&N(D(J@s8291';
+$config['user_salt_key'] = '123456';
 

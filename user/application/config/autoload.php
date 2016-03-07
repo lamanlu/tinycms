@@ -83,7 +83,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('user_pwd');
+$autoload['helper'] = array('url');
 
 /*
 | -------------------------------------------------------------------
@@ -97,7 +97,7 @@ $autoload['helper'] = array('user_pwd');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+$autoload['config'] = array('lm_config');
 
 /*
 | -------------------------------------------------------------------
