@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package 用户注册/登录接口
+ * @author LamanLu
+ * @since 2016-03-08
+ */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends MY_Controller{
@@ -20,21 +26,22 @@ class User extends MY_Controller{
             echo ajax_return(-1, '用户名不能为空');exit;
         }
         
+        $rule = "/^[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/i";
+        if(!preg_match($rule, $uname)){
+            echo ajax_return(-2, '不合法的用户名');exit;
+        }
+        
         if($pwd == '' || strlen($pwd) < 6){
-            echo ajax_return(-2, '密码长度必须大于6位');exit;
+            echo ajax_return(-3, '密码长度必须大于6位');exit;
         }
         
         if($pwd != $repwd){
-            echo ajax_return(-3, '2次密码输入不一致');exit;
+            echo ajax_return(-4, '2次密码输入不一致');exit;
         }
         
-        $checkArr = array();
-        $checkArr[] = array(
-            'user_name' => $uname,
-        );
-        $existUser = $this->UserModel->checkExist($checkArr);
-        if(!empty($existUser)){
-            echo ajax_return(-4, '已经存在的用户名');exit;            
+        $existFlag = $this->UserModel->checkExistName($uname);
+        if($existFlag){
+            echo ajax_return(-5, '已经存在的用户名');exit;            
         }        
         
         $password = createUserPwd($pwd);
@@ -51,6 +58,7 @@ class User extends MY_Controller{
                 'uid' => $userId,
                 'uname' => $uname,
             );
+            $this->doLogin($uname, $pwd);
             echo ajax_return(1, '注册成功', $res);
         }else{
             echo ajax_return(-5, '注册失败');
@@ -60,39 +68,41 @@ class User extends MY_Controller{
     public function login(){
         $uname = trim($this->postField('username'));
         $pwd = $this->postField('password');
-        $type = $this->postField('type');
         
         if($uname == '' || $pwd == ''){
             echo ajax_return(-1, '用户名与密码不能为空');exit;
         }
-        
 
-        $userId = $this->UserModel->getUidByField('user_name',$uname);
+        $res = $this->doLogin($uname, $pwd);
+        echo $res;
+    }    
+    
+    private function doLogin($uname,$pwd){
+        
+        $userId = $this->UserModel->getUidByName($uname);
 
         if(empty($userId)){
-            echo ajax_return(-2, '无效的登录用户');exit;
+            return ajax_return(-2, '无效的登录用户');
         }
         
         $userInfo = $this->UserModel->getUserById($userId);
+
+        if(empty($userInfo)){
+            return ajax_return(-3, '无效的UID');
+        }
         
         $password = createUserPwd($pwd);
         if($password != $userInfo['user_pwd']){
-            echo ajax_return(-3, '登录密码不正确');exit;
+            return ajax_return(-3, '登录密码不正确');
         }
         
         $data = array(
-            'uid' => $userInfo['id'],
+            'uid' => $userInfo['uid'],
             'uname' => $userInfo['user_name'],
         );
         $this->session->set_userdata($data);
-        echo ajax_return(1, '登录成功', $data);
-    }
-    
-    
-    private function doLogin($username,$password){
         
-        
-        
+        return ajax_return(1, '登录成功', $data);        
     }
     
     

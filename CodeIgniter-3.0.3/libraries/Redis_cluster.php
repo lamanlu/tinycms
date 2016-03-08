@@ -6,7 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Redis_cluster {
+class CI_Redis_cluster {
     
     protected $_Redis = null;
     
