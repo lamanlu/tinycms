@@ -102,6 +102,10 @@ class User extends MY_Controller{
         );
         $this->session->set_userdata($data);
         
+        $param = array('id' => $userInfo['uid']);
+        $data = array('last_login' => time());
+        $this->UserModel->updateData($param,$data);
+        
         return ajax_return(1, '登录成功', $data);        
     }
     

@@ -17,6 +17,8 @@ class User_model extends MY_Model{
         
         $this->_Current_DB = 'user';
         
+        $this->_Table = 'user';
+        
         $this->load->library('Redis_connecter',array('redis_user'),'UserRedis');
         $this->_UserRedis = $this->UserRedis->getInstance();
     }
