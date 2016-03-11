@@ -11,3 +11,6 @@ $config['dbprefix'] = 'pre_';
 //密码SALT
 $config['user_salt_key'] = '123456';
 
+//Cookie加密KEY
+$config['login_cookie_key'] = '123456';
+

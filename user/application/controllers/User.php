@@ -101,6 +101,14 @@ class User extends MY_Controller{
             'uname' => $userInfo['user_name'],
         );
         $this->session->set_userdata($data);
+
+        $timeStamp = time();
+        $signStr = $userInfo['uid'].$timeStamp.$this->config->item('login_cookie_key');
+        $sign = md5($signStr);
+        $expire = 7*86400;
+        set_cookie('uid', $userInfo['uid'], $expire);
+        set_cookie('lg_ct', $timeStamp, $expire);
+        set_cookie('sign', $sign, $expire);
         
         $param = array('id' => $userInfo['uid']);
         $data = array('last_login' => time());
