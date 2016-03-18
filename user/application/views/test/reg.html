@@ -16,10 +16,11 @@ and open the template in the editor.
                 var uname = $('#uname').val();
                 var pwd = $('#password').val();
                 var repwd = $('#repwd').val();
+                var type = $('#type').val();
                 $.ajax({
                     type: "POST",
                     url: "<?php echo get_url('user/regist');?>",
-                    data: {username:uname,password:pwd,repwd:repwd},
+                    data: {type:type,username:uname,password:pwd,repwd:repwd},
                     dataType: "json",
                     success: function(data){
                         alert(data.msg);
@@ -31,9 +32,10 @@ and open the template in the editor.
     <body>
         <div>Reg</div>
         <div>
+            注册类型：<input type="text" name="type" id="type" value="email"/><br/>
             用户名：<input type="text" name="uname" id="uname" value=""/><br/>
             密码：<input type="password" name="password" id="password" value=""/><br/>
-            确认密码：<input type="password" name="repwd" id="repwd" value=""/><br/>
+            确认密码：<input type="password" name="repwd" id="repwd" value=""/><br/>            
             <a href="#" onclick="reg();">注册</a>
         </div>
     </body>

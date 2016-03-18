@@ -30,7 +30,12 @@ class User_model extends MY_Model{
         $userId = $this->insertData($userData, 'user');
         
         if(!empty($userId)){
-            $this->setUidMap($userData['user_name'], $userId);            
+            $field = 'email';
+            if(isset($userData['mobile'])){
+                $field = 'mobile';
+            }
+            $name = $userData[$field];
+            $this->setUidMap($name, $userId);            
         }
         
         return $userId;
@@ -49,7 +54,7 @@ class User_model extends MY_Model{
             return $cache;
         }
         
-        $sql = 'SELECT id AS uid,user_name,user_pwd,nickname,mobile,create_time FROM '.$this->tableName('user').' WHERE id = ? LIMIT 1';
+        $sql = 'SELECT id AS uid,user_pwd,nickname,email,mobile,create_time FROM '.$this->tableName('user').' WHERE id = ? LIMIT 1';
         $param = array($uid);
         
         $userInfo = $this->getRowBySQL($sql, $param);
@@ -61,7 +66,7 @@ class User_model extends MY_Model{
         return $userInfo;
     }
     
-    public function getUidByName($uname){
+    public function getUidByName($field,$uname){
         $uid = 0;
         
         $res = $this->getUidMap($uname);
@@ -69,7 +74,7 @@ class User_model extends MY_Model{
             return $res;
         }
         
-        $sql = 'SELECT id FROM '.$this->tableName('user').' WHERE `user_name` = ? LIMIT 1';
+        $sql = 'SELECT id FROM '.$this->tableName('user').' WHERE `'.$field.'` = ? LIMIT 1';
         $param = array($uname);
         
         $userInfo = $this->getRowBySQL($sql, $param);
@@ -83,9 +88,9 @@ class User_model extends MY_Model{
         return $uid;
     }
     
-    public function checkExistName($uname){
+    public function checkExistName($field,$uname){
         
-        $uid = $this->getUidByName($uname);
+        $uid = $this->getUidByName($field,$uname);
         
         $return = empty($uid)?FALSE:TRUE;
         
@@ -96,7 +101,7 @@ class User_model extends MY_Model{
     private function setUidMap($value,$uid){
         
         $key = $this->_Cache_Prefix.'map_'.$value;
-        $key = md5($key);        
+//        $key = md5($key); 
         
         $this->_UserRedis->set($key,$uid);
     }
@@ -104,21 +109,21 @@ class User_model extends MY_Model{
     private function getUidMap($value){
         
         $key = $this->_Cache_Prefix.'map_'.$value;
-        $key = md5($key);
+//        $key = md5($key);
         
         return $this->_UserRedis->get($key);
     }
     
     private function setUserInfoCache($uid,$data){
         $key = $this->_Cache_Prefix.'info_'.$uid;
-        $key = md5($key);
+//        $key = md5($key);
         
         $this->_UserRedis->hMSet($key,$data);
     }
     
     private function getUserInfoCache($uid){
         $key = $this->_Cache_Prefix.'info_'.$uid;
-        $key = md5($key);
+//        $key = md5($key);
 
         return $this->_UserRedis->hGetAll($key);
     }

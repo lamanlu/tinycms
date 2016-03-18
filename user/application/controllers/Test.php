@@ -6,9 +6,9 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once APPPATH.'traits/UserInfo.php';
 class Test extends MY_Controller {
-    
+    use UserInfo;
     public function __construct() {
         parent::__construct();
     }
@@ -34,6 +34,10 @@ class Test extends MY_Controller {
     
     public function echoSession(){
         print_r($_SESSION);
+    }
+    
+    public function cookie(){
+        $this->getUserStatus();
     }
     
 }
