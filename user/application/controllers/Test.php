@@ -6,9 +6,9 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-require_once APPPATH.'traits/UserInfo.php';
+
 class Test extends MY_Controller {
-    use UserInfo;
+
     public function __construct() {
         parent::__construct();
     }

@@ -14,6 +14,8 @@ class MY_Controller extends CI_Controller {
     public function __construct() {
         parent::__construct();       
         date_default_timezone_set($this->config->item('time_reference'));
+        $this->loadGlobalConfig();
+        $this->checkLoginStatus();
     }
     
     protected function getField($key,$xss = FALSE){
@@ -24,6 +26,10 @@ class MY_Controller extends CI_Controller {
         return $this->input->post($key,$xss);
     }
     
+    private function loadGlobalConfig(){
+        $this->load->model('global/Config_model','GlobalConfigModel');
+        $this->_SYS_Config = $this->GlobalConfigModel->loadGlobalConfig();
+    }
     
 }
 

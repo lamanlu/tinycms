@@ -14,7 +14,7 @@ class MY_Model extends CI_Model{
         parent::__construct();        
     }
     
-    protected function db($group){
+    public function db($group){
         
         if(!isset($this->_DB[$group])){            
             $db = $this->load->database($group,TRUE);
