@@ -77,7 +77,7 @@ class CI_Loader {
 	 *
 	 * @var	array
 	 */
-	protected $_ci_model_paths =	array(APPPATH);
+	protected $_ci_model_paths =	array(APPPATH, BASEPATH);
 
 	/**
 	 * List of paths to load helpers from
@@ -113,7 +113,7 @@ class CI_Loader {
 	 * @var	array
 	 */
 	protected $_ci_helpers =	array();
-
+        
 	/**
 	 * List of class name mappings
 	 *
@@ -1391,5 +1391,5 @@ class CI_Loader {
 			return $filename;
 		}
 	}
-
+        
 }

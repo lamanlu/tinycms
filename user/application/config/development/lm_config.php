@@ -5,12 +5,8 @@
  * @since 2016-01-27
  */
 
-//数据表前缀配置参数
-$config['dbprefix'] = 'pre_';
-
 //密码SALT
 $config['user_salt_key'] = '123456';
 
-//Cookie加密KEY
-$config['login_cookie_key'] = '123456';
+
 

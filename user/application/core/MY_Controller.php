@@ -1,7 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once BASEPATH.'traits/UserManager.php';
+
 class MY_Controller extends CI_Controller {
+    
+    use UserManager;
     
     protected $_Redirect_URL = '/';
     

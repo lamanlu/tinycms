@@ -20,6 +20,9 @@ class User extends MY_Controller{
         1 => 'email',
         2 => 'mobile',
     );
+    
+    //记住登录状态
+    private $_IsRemember = 0;
 
     public function __construct() {
         parent::__construct();
@@ -86,7 +89,7 @@ class User extends MY_Controller{
                 'uid' => $userId,
                 $userField => $uname,
             );
-            $this->doLogin($typeId,$uname, $pwd);
+//            $this->doLogin($typeId,$uname, $pwd);
             echo ajax_return(1, '注册成功', $res);
         }else{
             echo ajax_return(-5, '注册失败');
@@ -96,6 +99,9 @@ class User extends MY_Controller{
     public function login(){
         $uname = trim($this->postField('username'));
         $pwd = $this->postField('password');
+        $rememberMe = intval($this->postField('remember'));
+        
+        $this->_IsRemember = empty($rememberMe)?0:1;
         
         if($uname == '' || $pwd == ''){
             echo ajax_return(-1, '用户名与密码不能为空');exit;
@@ -120,6 +126,21 @@ class User extends MY_Controller{
         echo $res;
     }    
     
+    public function logout(){
+        $this->session->sess_destroy();
+        delete_cookie('uid');
+        delete_cookie('lg_ct');
+        delete_cookie('sign');
+        echo ajax_return(1, '注销成功');
+    }
+    
+    /**
+     * 登录网站
+     * @param int $typeId 登录用户名类型 1：邮箱，2：手机号
+     * @param string $uname 用户名
+     * @param string $pwd 登录密码
+     * @return json
+     */
     private function doLogin($typeId,$uname,$pwd){
         
         $field = $this->_ACC_Field[$typeId];
@@ -130,7 +151,8 @@ class User extends MY_Controller{
             return ajax_return(-2, '无效的登录用户');
         }
         
-        $userInfo = $this->UserModel->getUserById($userId);
+        $this->load->model('global/UserInfo_model','UserInfoModel');
+        $userInfo = $this->UserInfoModel->getUserInfoById($userId);
 
         if(empty($userInfo)){
             return ajax_return(-3, '无效的UID');
@@ -139,10 +161,12 @@ class User extends MY_Controller{
         $password = createUserPwd($pwd);
         if($password != $userInfo['user_pwd']){
             return ajax_return(-3, '登录密码不正确');
-        }        
+        }                
         
         $this->setLoginSession($userInfo);
-        $this->setLoginCookie($userInfo['uid']);
+        if($this->_IsRemember){            
+            $this->setLoginCookie($userInfo['uid']);
+        }
         $this->afterLogin($userInfo);
         
         $data = array(
@@ -153,14 +177,6 @@ class User extends MY_Controller{
         return ajax_return(1, '登录成功', $data);        
     }
     
-    private function setLoginSession($userInfo){
-        $data = array(
-            'uid' => $userInfo['uid'],
-            'email' => $userInfo['email'],
-            'mobile' => $userInfo['mobile'],
-        );
-        $this->session->set_userdata($data);
-    }
 
     private function setLoginCookie($uid){
         $timeStamp = time();

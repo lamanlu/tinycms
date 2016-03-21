@@ -12,13 +12,13 @@ and open the template in the editor.
         <script src="/js/jquery-2.0.3.min.js"></script>
         <script>
             function login(){
-                console.log('reg');
                 var uname = $('#uname').val();
                 var pwd = $('#password').val();
+                var remember = $('#remember').val();
                 $.ajax({
                     type: "POST",
                     url: "<?php echo get_url('user/login');?>",
-                    data: {username:uname,password:pwd},
+                    data: {username:uname,password:pwd,remember:remember},
                     dataType: "json",
                     success: function(data){
                         alert(data.msg);
@@ -32,6 +32,7 @@ and open the template in the editor.
         <div>
             用户名：<input type="text" name="uname" id="uname" value=""/><br/>
             密码：<input type="password" name="password" id="password" value=""/><br/>
+            用户名：<input type="text" name="remember" id="remember" value="1"/><br/>
             <a href="#" onclick="login();">登录</a>
         </div>
     </body>

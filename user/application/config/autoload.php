@@ -97,7 +97,7 @@ $autoload['helper'] = array('url','cookie');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array('lm_config');
+$autoload['config'] = array('global_config','lm_config');
 
 /*
 | -------------------------------------------------------------------
