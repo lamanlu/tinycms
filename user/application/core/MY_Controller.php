@@ -27,8 +27,8 @@ class MY_Controller extends CI_Controller {
     }
     
     private function loadGlobalConfig(){
-        $this->load->model('global/Config_model','GlobalConfigModel');
-        $this->_SYS_Config = $this->GlobalConfigModel->loadGlobalConfig();
+        $this->load->model('global/Config_model','ConfigModel');
+        $this->_SYS_Config = $this->ConfigModel->loadConfig();
     }
     
 }
