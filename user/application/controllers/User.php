@@ -128,9 +128,7 @@ class User extends MY_Controller{
     
     public function logout(){
         $this->session->sess_destroy();
-        delete_cookie('uid');
-        delete_cookie('lg_ct');
-        delete_cookie('sign');
+        $this->delLoginCookie();
         echo ajax_return(1, '注销成功');
     }
     
@@ -164,7 +162,8 @@ class User extends MY_Controller{
         }                
         
         $this->setLoginSession($userInfo);
-        if($this->_IsRemember){            
+        $this->delLoginCookie();
+        if($this->_IsRemember){ 
             $this->setLoginCookie($userInfo['uid']);
         }
         $this->afterLogin($userInfo);
@@ -188,6 +187,13 @@ class User extends MY_Controller{
         set_cookie('sign', $sign, $expire);
     }
     
+    private function delLoginCookie(){
+        delete_cookie('uid');
+        delete_cookie('lg_ct');
+        delete_cookie('sign');
+    }
+
+
     private function afterLogin($userInfo){
         $param = array('id' => $userInfo['uid']);
         $data = array('last_login' => time());
