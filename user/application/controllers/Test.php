@@ -14,14 +14,7 @@ class Test extends MY_Controller {
     }
     
     public function index(){
-        $id = intval($this->getField('id'));
-        $text = $this->postField('text');
-        
-        if($id > 0){
-            echo 'Update Text:'.$text;
-        }else{
-            echo 'Insert Test:'.$text;
-        }
+        $this->display('test/index.html','blank.html');
     }
     
     public function reg(){

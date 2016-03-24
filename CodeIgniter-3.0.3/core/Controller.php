@@ -95,6 +95,14 @@ class CI_Controller {
 		return self::$instance;
 	}
         
+        protected function getField($key,$xss = FALSE){
+            return $this->input->get($key,$xss);
+        }
+
+        protected function postField($key,$xss = FALSE){
+            return $this->input->post($key,$xss);
+        }
+        
         protected function setData($key,$value){
             $this->_data[$key] = $value;
         }

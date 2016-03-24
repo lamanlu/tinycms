@@ -18,14 +18,6 @@ class MY_Controller extends CI_Controller {
         $this->checkLoginStatus();
     }
     
-    protected function getField($key,$xss = FALSE){
-        return $this->input->get($key,$xss);
-    }
-    
-    protected function postField($key,$xss = FALSE){
-        return $this->input->post($key,$xss);
-    }
-    
     private function loadGlobalConfig(){
         $this->load->model('global/Config_model','ConfigModel');
         $this->_SYS_Config = $this->ConfigModel->loadConfig();

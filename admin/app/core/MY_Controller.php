@@ -27,14 +27,6 @@ class MY_Controller extends CI_Controller {
         $this->loadSysConfig();
     }
     
-    protected function getField($key,$xss = FALSE){
-        return $this->input->get($key,$xss);
-    }
-    
-    protected function postField($key,$xss = FALSE){
-        return $this->input->post($key,$xss);
-    }
-    
 
     protected function showNoticePage($messages = array()){       
         $this->setData('massages', $messages);
