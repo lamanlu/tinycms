@@ -342,7 +342,7 @@ class CI_Router {
 
 			if ( ! file_exists(APPPATH.'controllers/'.$test.'.php')
 				&& $directory_override === FALSE
-				&& is_dir(APPPATH.'controllers/'.$this->directory.$segments[0])
+				&& is_dir(APPPATH.'controllers/'.$this->directory.ucfirst(strtolower($segments[0])))
 			)
 			{
 				$this->set_directory(array_shift($segments), TRUE);
@@ -433,6 +433,7 @@ class CI_Router {
 	public function set_class($class)
 	{
 		$this->class = str_replace(array('/', '.'), '', $class);
+                $this->class = ucfirst(strtolower($this->class));
 	}
 
 	// --------------------------------------------------------------------
@@ -493,6 +494,7 @@ class CI_Router {
 		{
 			$this->directory .= str_replace('.', '', trim($dir, '/')).'/';
 		}
+                $this->directory = ucfirst(strtolower($this->directory));
 	}
 
 	// --------------------------------------------------------------------
